@@ -125,7 +125,7 @@
 			<ul class="chat-list">
 				<li class="list active">
 					<div class="profile">
-						<img src="images/faces/face1.jpg" alt="image"><span
+						<img src="resources/images/faces/face1.jpg" alt="image"><span
 							class="online"></span>
 					</div>
 					<div class="info">
@@ -135,7 +135,7 @@
 				</li>
 				<li class="list">
 					<div class="profile">
-						<img src="images/faces/face2.jpg" alt="image"><span
+						<img src="resources/images/faces/face2.jpg" alt="image"><span
 							class="offline"></span>
 					</div>
 					<div class="info">
@@ -149,7 +149,7 @@
 				</li>
 				<li class="list">
 					<div class="profile">
-						<img src="images/faces/face3.jpg" alt="image"><span
+						<img src="resources/images/faces/face3.jpg" alt="image"><span
 							class="online"></span>
 					</div>
 					<div class="info">
@@ -159,7 +159,7 @@
 				</li>
 				<li class="list">
 					<div class="profile">
-						<img src="images/faces/face4.jpg" alt="image"><span
+						<img src="resources/images/faces/face4.jpg" alt="image"><span
 							class="offline"></span>
 					</div>
 					<div class="info">
@@ -169,7 +169,7 @@
 				</li>
 				<li class="list">
 					<div class="profile">
-						<img src="images/faces/face5.jpg" alt="image"><span
+						<img src="resources/images/faces/face5.jpg" alt="image"><span
 							class="online"></span>
 					</div>
 					<div class="info">
@@ -179,7 +179,7 @@
 				</li>
 				<li class="list">
 					<div class="profile">
-						<img src="images/faces/face6.jpg" alt="image"><span
+						<img src="resources/images/faces/face6.jpg" alt="image"><span
 							class="online"></span>
 					</div>
 					<div class="info">

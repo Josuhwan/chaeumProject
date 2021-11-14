@@ -9,7 +9,7 @@
 	<!-- 상단바 -->
 	<%@include file="include/navbar.jsp" %>
 	<div class="container-fluid page-body-wrapper">
-		<c:if test="${loginMember.id !=null && loginMember.role == '관리자'}"> 
+		<c:if test="${user.email !=null && (user.rank == '관리자' || user.rank == '마스터 관리자')}"> 
 		<!-- 관리자용 왼쪽 사이드바 -->
 			<%@include file="include/sidebar.jsp" %>
 		</c:if>

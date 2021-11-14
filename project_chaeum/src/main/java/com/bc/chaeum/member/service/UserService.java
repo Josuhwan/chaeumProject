@@ -2,6 +2,8 @@ package com.bc.chaeum.member.service;
 
 
 public interface UserService {
-	UserVO loginUser(UserVO vo);
-	void insertUser(UserVO vo);
+	MemberVO loginUser(MemberVO vo);
+	void insertUser(MemberVO vo);
+	int checkName(String ninkname);
+	int checkEmail(String email);
 }

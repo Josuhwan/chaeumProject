@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+
+	<!-- 전체 지점 월 매출 -->
+	<select id="selectAll_Month" parameterType="admin" resultType="admin">
+		SELECT SUM(SALEPRICE) AS MONTHSALE, SALE.BRANCH_ID AS BRANCHID, BRANCH.BRANCH_NAME AS BRANCHNAME, #{month} AS MONTH
+		FROM SALE INNER JOIN BRANCH
+		ON SALE.BRANCH_ID = BRANCH.BRANCH_ID
+		WHERE TO_CHAR(SALEDATE, 'MM') = #{month}
+		GROUP BY SALE.BRANCH_ID, BRANCH.BRANCH_NAME
+	</select>
+	
+	<!-- 전체 지점 일 매출 --> 
+	<select id="selectAll_Day" parameterType="admin" resultType="admin">
+		SELECT SUM(SALEPRICE) AS DAYSALE, SALE.BRANCH_ID AS BRANCHID, BRANCH.BRANCH_NAME AS BRANCHNAME, #{month} AS MONTH, #{day} AS DAY
+		FROM SALE INNER JOIN BRANCH
+		ON SALE.BRANCH_ID = BRANCH.BRANCH_ID
+		WHERE TO_CHAR(SALEDATE, 'MM') = #{month}
+		AND TO_CHAR(SALEDATE, 'DD') = #{day}
+		GROUP BY SALE.BRANCH_ID, BRANCH.BRANCH_NAME
+	</select>
+	
+	<!-- 지정 지점 월 매출(전월 대비에도 사용) -->
+	<select id="selectOne_Month" parameterType="admin" resultType="admin">
+		SELECT SUM(SALEPRICE) AS MONTHSALE, SALE.BRANCH_ID AS BRANCHID, BRANCH.BRANCH_NAME AS BRANCHNAME, #{month} AS MONTH
+		FROM SALE INNER JOIN BRANCH
+		ON SALE.BRANCH_ID = BRANCH.BRANCH_ID
+		WHERE TO_CHAR(SALEDATE, 'MM') = #{month}
+		AND SALE.BRANCH_ID = #{branchid}
+		GROUP BY SALE.BRANCH_ID, BRANCH.BRANCH_NAME
+	</select>
+	
+	<!-- 지정 지점 일 매출(전일 대비에도 사용) -->
+	<select id="selectOne_Day" parameterType="admin" resultType="admin">
+		SELECT SUM(SALEPRICE) AS DAYSALE, SALE.BRANCH_ID AS BRANCHID, BRANCH.BRANCH_NAME AS BRANCHNAME, #{month} AS MONTH, #{day} AS DAY
+		FROM SALE INNER JOIN BRANCH
+		ON SALE.BRANCH_ID = BRANCH.BRANCH_ID
+		WHERE TO_CHAR(SALEDATE, 'MM') = #{month}
+		AND TO_CHAR(SALEDATE, 'DD') = #{day}
+		AND SALE.BRANCH_ID = #{branchid}
+		GROUP BY SALE.BRANCH_ID, BRANCH.BRANCH_NAME
+	</select>
+	
+	<!-- 지정 월 방문자 수(기본값 현재 시간 기준) -->
+	<select id="selectMonth_visitcnt" parameterType="admin" resultType="admin">
+		SELECT SUM(VISITCNT) AS VISITCNT, #{month} AS MONTH 
+		FROM VISIT 
+		WHERE TO_CHAR(VISITDATE, 'MM') = #{month}
+	</select>
+	
+	<!-- 지정 월 가입자 수(기본값 현재 시간 기준) -->
+	<select id="selectMonth_regcnt" parameterType="admin" resultType="admin">
+		SELECT COUNT(email) AS REGCNT, #{month} AS MONTH 
+		FROM MEMBER 
+		WHERE TO_CHAR(m_regdate, 'MM') = #{month} 
+		AND RANK = '일반사용자'
+	</select>
+	
+	<!-- 연간 방문자 수 추이 차트 값 -->
+	<select id="visitcntlist" parameterType="admin" resultType="admin">
+		SELECT SUM(VISITCNT) AS VISITCNT, TO_CHAR(VISITDATE, 'MM') AS MONTH
+		FROM VISIT
+		GROUP BY TO_CHAR(VISITDATE, 'MM')
+		ORDER BY TO_CHAR(VISITDATE, 'MM')
+	</select>
+	
+	<!-- 로그인 시 방문자 수 증가 -->
+	<update id="updatevisitcnt" parameterType="String">
+		UPDATE VISIT SET VISITCNT = NVL(VISITCNT, 0) + 1 WHERE VISITDATE = #{now}
+	</update>
+	
+	<!-- 방문자 수 증가 할때 기존 데이터 없을 시 -->
+	<insert id="insertvisitcnt" parameterType="String">
+		INSERT INTO VISIT (VISITDATE, VISITCNT)
+		VALUES(#{now}, 1)
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+

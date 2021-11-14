@@ -10,7 +10,7 @@
 		<tr>
 			<th width="70">아이디</th>
 			<td>
-				<input type="text" name="id" size="30" value="${loginMember.id }">
+				<input type="text" name="id" size="30" value="${loginMember.email }">
 			</td>
 		</tr>
 		<tr>
@@ -22,7 +22,7 @@
 		<tr>
 			<th>암호</th>
 			<td>
-				<input type="password" name="password" value="${loginMember.password }">
+				<input type="password" name="password" value="${loginMember.m_pass }">
 			</td>
 		</tr>
 		<tr>
