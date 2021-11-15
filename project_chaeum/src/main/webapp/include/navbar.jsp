@@ -317,6 +317,11 @@
 		});
 	}	
 	
+	<!-- 비밀번호 찾기(재설정) -->
+	
+	function passFind() {
+		location.href="passFindPage.do";	
+	}
 	
 </script>	
 	
@@ -475,7 +480,7 @@
 			
 						<!-- Modal footer -->
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-danger" data-dismiss="modal">ID/PW찾기</button>
+	          <button type="button" class="btn btn-danger" onclick="passFind()">비밀번호재설정</button>
 	          <button type="button" class="btn btn-danger" data-dismiss="modal">회원가입</button>
 	          <br>
 	            <button type="button" class="btn btn-danger" data-dismiss="modal">카카오</button>

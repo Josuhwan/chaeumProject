@@ -5,9 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 table {
 	border-collapse: collapse;
+}
+
+li {
+	list-style: none;
+	float: left;
+	padding: 6px;
 }
 
 table, th, td {
@@ -29,7 +37,12 @@ th {
 </style>
 <title>글목록</title>
 <script>
-	
+$(function(){
+    $('#searchBtn').click(function() {
+    	alert($("select option:selected").val());
+      location.href = "getFreeBoardList.do" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
+    });
+  });   	
 </script>
 </head>
 <div class="content-wrapper" align="center">
@@ -43,19 +56,27 @@ th {
 					<br> <br>
 
 					<!-- 검색을 위한 폼 -->
-					<div align="right">
-						<form action="getFreeBoardList.do" method="get">
-							<table class="border-none">
-								<tr>
-									<td><select name="searchCondition">
-											<option value="TITLE">제목</option>
-											<option value="CONTENT">내용</option>
-									</select> <input type="text" name="searchKeyword"> <input
-										type="submit" value="검색"></td>
-								</tr>
-							</table>
-						</form>
+					
+					<div class="search">
+					<form role="form" method="get">
+						<select name="searchType">
+							<option value="n"
+								<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
+							<option value="t"
+								<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
+							<option value="c"
+								<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
+							<option value="w"
+								<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>
+							<option value="tc"
+								<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
+						</select> 
+						<input type="text" name="keyword" id="keywordInput" value="${scri.keyword}" />
+
+						<button id="searchBtn" type="button">검색</button>
+					</form>
 					</div>
+				
 					<br>
 
 					<div class="table-responsive pt-3">
@@ -97,10 +118,26 @@ th {
 								<a href="index.jsp?contentPage=community/insertBoard.jsp">새글등록</a>
 							</p>
 						</c:if>
+						<ul>
+							<c:if test="${pageMaker.prev}">
+								<li><a
+									href="getFreeBoardList.do${pageMaker.makeSearch(pageMaker.pageStart - 1)}">이전</a></li>
+							</c:if>
+
+							<c:forEach begin="${pageMaker.pageStart}"
+								end="${pageMaker.pageEnd}" var="idx">
+								<li><a
+									href="getFreeBoardList.do${pageMaker.makeSearch(idx)}">${idx}</a></li>
+							</c:forEach>
+
+							<c:if test="${pageMaker.next && pageMaker.pageEnd > 0}">
+								<li><a
+									href="getFreeBoardList.do${pageMaker.makeSearch(pageMaker.pageEnd + 1)}">다음</a></li>
+							</c:if>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-</div>
+	</div>

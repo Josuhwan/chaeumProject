@@ -7,6 +7,33 @@
 <head>
 <meta charset="UTF-8">
 <title>글등록</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+	function checkForm(){
+
+		var title = $("#title").val(); 
+		var b_content = $("#exampleTextarea1").val();
+		
+		if(title == null || title == "") {
+			$("#title").focus();
+			alert("제목을 입력해주세요");
+			return;
+		} 
+		
+		if (b_content == null || b_content == "") {
+			$("#exampleTextarea1").focus();
+			alert("내용을 입력해주세요");
+			return;
+		} 
+		
+
+		
+		$("#insertForm").submit();
+		
+	}	
+		
+</script>
 <style>
 .card-body {
 	padding: 2.25rem 10.25rem;
@@ -27,7 +54,7 @@
 								<br> <br>
 							</div>
 
-							<form class="forms-sample" action="insertBoard.do" method="post">
+							<form class="forms-sample" id="insertForm" action="insertBoard.do" method="post">
 								<input type="hidden" name="email"value="${sessionScope.user.email}"> 
 								<input type="hidden" name="boardtype" value="자유게시판">
 								<div class="form-group row" align="left">
@@ -41,7 +68,7 @@
 								<div class="form-group row">
 									<label for="exampleInputEmail2" class="col-sm-3 col-form-label">제목</label>
 									<div class="col-sm-9">
-										<input class="form-control" type="text" name="title">
+										<input class="form-control" id="title" type="text" name="title">
 									</div>
 								</div>
 
@@ -56,7 +83,7 @@
 
 								<br>
 
-								<button type="submit" class="btn btn-primary mr-2">등록</button>
+								<button type="button" class="btn btn-primary mr-2" onclick="checkForm()" >등록</button>
 								<button class="btn btn-light"
 									onclick="href='getFreeBoardList.do'">취소</button>
 							</form>

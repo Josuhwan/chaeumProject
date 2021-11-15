@@ -39,6 +39,24 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	@Override
+	public void userUpdate(MemberVO vo) {
+		userDAO.userUpdate(vo);
+		
+	}
+
+	@Override
+	public void userSignout(String email) {
+		userDAO.userSignout(email);
+		
+	}
+
+	@Override
+	public void passFind(MemberVO vo) {
+		userDAO.passFind(vo);
+		
+	}
+
 	
 
 	

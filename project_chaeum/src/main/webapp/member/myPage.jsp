@@ -6,6 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<script>
+	
+	function signout() {
+		alert("눌립니까");
+		var email = "${sessionScope.user.email}";
+		location.href="signout.do?email="+ email;
+		
+	}
+</script>
 </head>
 <body>
 
@@ -35,55 +44,59 @@
 								<div class="card">
 									<div class="card-body">
 										<h4 class="card-title">회원정보</h4>
-										<p class="card-description">회원정보</p>
-										<form class="forms-sample">
+										
+										<form class="forms-sample" action="userUpdate.do">
 											<div class="form-group">
-												<label for="exampleInputName1">Name</label> <input
+											<input type="hidden" name= "email" value ="${sessionScope.user.email}">
+												<label for="exampleInputEmail3">이메일</label> <input
+													type="email" class="form-control" id="exampleInputEmail3" 
+													placeholder="${sessionScope.user.email}" disabled>
+											</div>
+											<div class="form-group">
+												<label for="exampleInputName1" >닉네임</label> <input
 													type="text" class="form-control" id="exampleInputName1"
-													placeholder="Name">
+													placeholder="${sessionScope.user.nickname}" name="nickname">
 											</div>
 											<div class="form-group">
-												<label for="exampleInputEmail3">Email address</label> <input
-													type="email" class="form-control" id="exampleInputEmail3"
-													placeholder="Email">
-											</div>
-											<div class="form-group">
-												<label for="exampleInputPassword4">Password</label> <input
+												<label for="exampleInputPassword4">비밀번호</label> <input
 													type="password" class="form-control"
-													id="exampleInputPassword4" placeholder="Password">
+													id="exampleInputPassword4" name="m_pass">
 											</div>
 											<div class="form-group">
-												<label for="exampleSelectGender">Gender</label> <select
-													class="form-control" id="exampleSelectGender">
-													<option>Male</option>
-													<option>Female</option>
-												</select>
+												<label for="exampleInputPassword4">비밀번호확인</label> <input
+													type="password" class="form-control"
+													id="exampleInputPassword5" >
 											</div>
+											
+											
 											<div class="form-group">
-												<label>File upload</label> <input type="file" name="img[]"
-													class="file-upload-default">
-												<div class="input-group col-xs-12">
-													<input type="text" class="form-control file-upload-info"
-														disabled="" placeholder="Upload Image"> <span
-														class="input-group-append">
-														<button class="file-upload-browse btn btn-primary"
-															type="button">Upload</button>
-													</span>
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="exampleInputCity1">City</label> <input
+												<label for="exampleInputCity1">휴대폰번호</label> <input
 													type="text" class="form-control" id="exampleInputCity1"
-													placeholder="Location">
+													placeholder="${sessionScope.user.phone}" name="phone">
+											</div>
+											
+											<div class="form-group">
+												<label for="exampleInputCity1">생년월일</label> <input
+													type="text" class="form-control" id="exampleInputCity1"
+													placeholder="${sessionScope.user.birth}" name="birth">
+											</div>
+											
+											<div class="form-group">
+												<label for="exampleInputCity1">회원등급</label> <input
+													type="text" class="form-control" id="exampleInputCity1"
+													placeholder="${sessionScope.user.rank}" disabled>
 											</div>
 											<div class="form-group">
-												<label for="exampleTextarea1">Textarea</label>
-												<textarea class="form-control" id="exampleTextarea1"
-													rows="4"></textarea>
+												<label for="exampleInputCity1">마일리지</label> <input
+													type="text" class="form-control" id="exampleInputCity1"
+													placeholder="" disabled><button>충전</button>
 											</div>
-											<button type="submit" class="btn btn-primary mr-2">Submit</button>
-											<button class="btn btn-light">Cancel</button>
+											<br>
+											<button type="submit" class="btn btn-primary mr-2">회원수정</button>
+											
 										</form>
+										<br>
+										<button class="btn btn-light" onclick="signout()">회원탈퇴</button>
 									</div>
 								</div>
 							</div>
@@ -163,7 +176,7 @@
 													<th style="width: 5%">글번호</th>
 													<th style="width: 35%">제목</th>
 													<th style="width: 40%">작성일</th>
-													<th style="width: 20%">${sessionScope.user.nickname}</th>
+													<th style="width: 20%"></th>
 
 												</tr>
 											</thead>

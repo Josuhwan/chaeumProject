@@ -15,22 +15,35 @@
 	</insert>
 	
 	<!-- 글 목록 --> 
-	<select id="getBoardList" parameterType="board" resultType="board">
-		SELECT B.* , M.NICKNAME
-		FROM BOARD B
-		INNER JOIN MEMBER M ON (B.EMAIL = M.EMAIL)
-		WHERE B_USEABLE = '사용'  
-		<!--
-		WHERE 1=1 
-		<if test="searchCondition == 'TITLE' ">
-			AND TITLE LIKE '%'|| #{searchKeyword} ||'%'
-		</if>
-		<if test="searchCondition == 'CONTENT' ">
-			AND TITLE LIKE '%'|| #{searchKeyword} ||'%'
-		</if>
-		 -->
+	<select id="getBoardList" parameterType="com.bc.chaeum.common.Criteria" resultType="board">
+		SELECT S.BOARD_ID, S.TITLE, S.COUNT, S.B_REGDATE, S.NICKNAME, S.BOARDTYPE, S.B_CONTENTS
+  		  FROM (SELECT B.BOARD_ID, B.TITLE, B.COUNT, B.B_REGDATE, M.NICKNAME, B.BOARDTYPE, B.B_CONTENTS, ROW_NUMBER() OVER(ORDER BY B.BOARD_ID) AS RNUM 
+                  FROM BOARD B, MEMBER M
+                 WHERE B.EMAIL = M.EMAIL AND B_USEABLE = '사용') S
+		WHERE 1=1
+		AND RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		<include refid="search"></include>
 		ORDER BY BOARD_ID DESC
+	
 	</select>
+	
+	<select id="listCount" parameterType="com.bc.chaeum.common.SearchCriteria" resultType="int">
+		SELECT COUNT(BOARD_ID)
+		   FROM BOARD
+		   WHERE 1=1
+		<include refid="search"></include>	
+		   AND BOARD_ID > 0
+	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND B_CONTENTS LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'n'.toString()">AND NICKNAME LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (B_CONTENTS LIKE '%' || #{keyword} || '%')</if>
+		</if>
+	</sql>
+	
 	
 	<!-- 글 상세 --> 
 	<select id="getBoard" parameterType="board" resultType="board">
@@ -63,18 +76,22 @@
     	 WHERE BOARD_ID = #{board_id}
     </update>
 	
-	<!--  
+	<!-- 게시글 검색 --> 
 	<select id="getBoardList_T" parameterType="board" resultType="board">
 		SELECT * FROM BOARD 
 		WHERE TITLE LIKE '%'|| #{searchKeyword} ||'%'
-		ORDER BY SEQ DESC
+		ORDER BY BOARD_ID DESC
 	</select>
 	<select id="getBoardList_C" parameterType="board" resultType="board">
 		SELECT * FROM BOARD 
-		WHERE CONTENT LIKE '%'|| #{searchKeyword} ||'%'
-		ORDER BY SEQ DESC
+		WHERE B_CONTENTS LIKE '%'|| #{searchKeyword} ||'%'
+		ORDER BY BOARD_ID DESC
 	</select>
-	 -->	
+	<select id="getBoardList_N" parameterType="board" resultType="member">
+		SELECT * FROM MEMBER 
+		WHERE NICKNAME LIKE '%'|| #{searchKeyword} ||'%'
+	</select>
+		
 </mapper>
 
 

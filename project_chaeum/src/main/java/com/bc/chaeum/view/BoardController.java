@@ -1,8 +1,6 @@
 package com.bc.chaeum.view;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +15,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.bc.chaeum.board.service.BoardService;
 import com.bc.chaeum.board.service.BoardVO;
+import com.bc.chaeum.common.Criteria;
+import com.bc.chaeum.common.PageMaker;
+import com.bc.chaeum.common.SearchCriteria;
 
 
 @Controller
@@ -31,14 +32,6 @@ public class BoardController {
 		System.out.println("--->> BoardController() 객체생성");
 	}
 	
-	@ModelAttribute("conditionMap")
-	public Map<String, String> searchConditionMap() {
-		System.out.println("--->> Map searchConditionMap() 실행");
-		Map<String, String> conditionMap = new HashMap<String, String>();
-		conditionMap.put("제목", "TITLE");
-		conditionMap.put("내용", "CONTENT");
-		return conditionMap;
-	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@RequestMapping("/getBoard.do")
@@ -54,24 +47,35 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/getFreeBoardList.do")
-	public String getBoardList(BoardVO vo, Model model) {
+	public String getBoardList(@ModelAttribute("scri") SearchCriteria scri, Model model) {
 		System.out.println(">>> 게시글 목록 보여주기");
-		System.out.println(":: getBoardList() vo : " + vo);
-		List<BoardVO> boardList = boardService.getBoardList(vo);
+		
+		List<BoardVO> boardList = boardService.getBoardList(scri);
 		
 		model.addAttribute("boardList", boardList);
+		
+		PageMaker pageMaker = new PageMaker();
+		
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(boardService.listCount(scri));
+		
+		model.addAttribute("pageMaker", pageMaker);		
+		
+		System.out.println("boardList :" + boardList );
+		System.out.println("pageMaker : " + pageMaker);
+		
 		
 		return "index.jsp?contentPage=community/freeBoard.jsp";
 
 	}	
 	
 	@RequestMapping("/getNoticeBoardList.do")
-	public String getNoticeBoardList(BoardVO vo, Model model) {
+	public String getNoticeBoardList(BoardVO vo, Criteria cri, Model model) {
 		System.out.println(">>> 게시글 목록 보여주기");
 		System.out.println(":: getBoardList() vo : " + vo);
-		List<BoardVO> boardList = boardService.getBoardList(vo);
+//		List<BoardVO> boardList = boardService.getBoardList(vo);
 		
-		model.addAttribute("boardList", boardList);
+//		model.addAttribute("boardList", boardList);
 		
 		return "index.jsp?contentPage=community/noticeBoard.jsp";
 
@@ -108,6 +112,7 @@ public class BoardController {
 		boardService.deleteBoard(vo);
 		return "getFreeBoardList.do";
 	}
+	
 	
 	
 }

@@ -23,14 +23,6 @@ public class BoardVO {
 	private MemberVO memberVO;
 	
 	
-	// 검색조건용 필드 추가
-	//@JsonIgnore //JSON 데이터 변경 제외
-	private String searchCondition;
-	//@JsonIgnore 
-	private String searchKeyword;
-	
-	
-	
 	public BoardVO() {
 		System.out.println(">> BoardVO() 객체 생성");
 	}
@@ -176,24 +168,9 @@ public class BoardVO {
 		return "BoardVO [board_id=" + board_id + ", title=" + title + ", b_contents=" + b_contents + ", boardtype="
 				+ boardtype + ", b_regdate=" + b_regdate + ", update_date=" + update_date + ", b_useable=" + b_useable
 				+ ", count=" + count + ", email=" + email + ", nickname=" + nickname + ", memberVO=" + memberVO
-				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
+				  + "]";
 	}
 
-
-
-	//==========================
-	public String getSearchCondition() {
-		return searchCondition;
-	}
-	public void setSearchCondition(String searchCondition) {
-		this.searchCondition = searchCondition;
-	}
-	public String getSearchKeyword() {
-		return searchKeyword;
-	}
-	public void setSearchKeyword(String searchKeyword) {
-		this.searchKeyword = searchKeyword;
-	}
 
 	
 	

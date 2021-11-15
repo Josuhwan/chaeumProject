@@ -31,6 +31,30 @@
 		WHERE EMAIL = #{email} 
 	</select>
 	
+	<!-- 회원정보 수정 -->
+	<update id="userUpdate" parameterType="member">
+		UPDATE MEMBER
+   		   SET M_PASS = #{m_pass},
+	      	   NICKNAME = #{nickname},
+	           PHONE = #{phone},
+	           BIRTH = #{birth}
+	     WHERE EMAIL = #{email}
+	</update>
+	
+	<!--  회원삭제 부분(사용불가로 업데이트) -->
+	<update id="userSignout" parameterType="String">
+		UPDATE MEMBER
+		   SET M_USEABLE = '불가'
+		 WHERE EMAIL = #{email} 
+	</update>
+	
+	<!-- 비밀번호 찾기(재설정) -->
+	<update id="passFind" parameterType="member">
+		UPDATE MEMBER
+		   SET M_PASS = #{m_pass}
+		 WHERE EMAIL = #{email}   
+	</update>
+	
 </mapper>
 
 

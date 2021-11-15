@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bc.chaeum.board.service.BoardService;
 import com.bc.chaeum.board.service.BoardVO;
+import com.bc.chaeum.common.SearchCriteria;
 
 // @Service : @Component 상속확장 어노테이션
 //		비즈니스 로직 처리 서비스 영역에 사용
@@ -41,9 +42,17 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getBoard(vo);
 	}
 
+
 	@Override
-	public List<BoardVO> getBoardList() {
-		return boardDAO.getBoardList();
+	public void boardCnt(int board_id) throws Exception {
+		boardDAO.boardCnt(board_id);
+	}
+
+
+
+	@Override
+	public List<BoardVO> getBoardList(SearchCriteria scri) {
+		return boardDAO.getBoardList(scri);
 	}
 
 	@Override
@@ -52,8 +61,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void boardCnt(int board_id) throws Exception {
-		boardDAO.boardCnt(board_id);
+	public int listCount(SearchCriteria scri) {
+		return boardDAO.listCount(scri);
 	}
 
 }

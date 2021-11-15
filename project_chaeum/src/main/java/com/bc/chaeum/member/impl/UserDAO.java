@@ -38,4 +38,19 @@ public class UserDAO {
 		System.out.println("====> checkEmail() 실행");
 		return mybatis.selectOne("userDAO.checkEmail", email);
 	}
+
+	public void userUpdate(MemberVO vo) {
+		mybatis.update("userDAO.userUpdate", vo);
+		
+	}
+
+	public void userSignout(String email) {
+		mybatis.update("userDAO.userSignout", email);
+		
+	}
+
+	public void passFind(MemberVO vo) {
+		mybatis.update("userDAO.passFind", vo);
+		
+	}
 }	
