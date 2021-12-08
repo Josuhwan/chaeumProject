@@ -69,4 +69,21 @@ public class BoardDAO {
 	public int listCount(SearchCriteria scri) {
 		return mybatis.selectOne("boardDAO.listCount", scri);
 	}
+	public List<BoardVO> getBoardList_F(SearchCriteria scri) {
+		System.out.println("===> MyBatis로 getBoardList(vo) 실행");
+
+		return mybatis.selectList("boardDAO.getBoardList_F", scri);
+	}
+
+	public List<BoardVO> getBoardList2(String email) {
+		return mybatis.selectList("boardDAO.getBoardList2", email);
+	}
+	
+	/*
+	public List<BoardVO> getBoardList_F(BoardVO vo) {
+		System.out.println("===> MyBatis로 getBoardList(vo) 실행");
+
+		return mybatis.selectList("boardDAO.getBoardList_F", vo);
+	}
+	*/
 }

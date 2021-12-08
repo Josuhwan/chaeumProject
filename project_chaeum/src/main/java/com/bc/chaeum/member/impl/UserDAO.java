@@ -53,4 +53,18 @@ public class UserDAO {
 		mybatis.update("userDAO.passFind", vo);
 		
 	}
+
+	public MemberVO signinCheck(MemberVO vo) {
+		return mybatis.selectOne("userDAO.signinCheck" , vo);
+	}
+
+	public int passChk(MemberVO vo) {
+		int result = mybatis.selectOne("userDAO.passChk", vo);
+		return result;
+	}
+
+	public int loginChk(String email) {
+		int result = mybatis.selectOne("userDAO.loginChk", email);
+		return result;
+	}
 }	

@@ -19,11 +19,6 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println(">> MemberServiceImpl() 객체생성");
 	}
 	
-	
-	@Override
-	public MemberVO selectOneMember(String id) {
-		return memberDAO.selectOneMember(id);
-	}
 
 	// 회원목록
 	@Override
@@ -34,11 +29,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberVO> selectAllMember(MemberVO vo) {
 		return memberDAO.selectAllMember(vo);
-	}
-
-	@Override
-	public int insertMember(MemberVO vo) {
-		return memberDAO.insertMember(vo);
 	}
 	
 	//회원하나조회
@@ -59,10 +49,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.deleteMember(vo);
 	}
 
-	@Override
-	public MemberVO checkIdPassword(String id, String password) {
-		return memberDAO.checkIdPassword(id, password);
-	}
 
 
 	

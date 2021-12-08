@@ -77,7 +77,7 @@
       if ((body.hasClass('sidebar-toggle-display')) || (body.hasClass('sidebar-absolute'))) {
         body.toggleClass('sidebar-hidden');
       } else {
-        body.toggleClass('sidebar-icon-only');
+        body.toggleClass('sidebar-hidden');
       }
     });
 

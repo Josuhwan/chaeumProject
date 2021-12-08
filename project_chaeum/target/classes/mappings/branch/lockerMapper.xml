@@ -7,7 +7,11 @@
 		SELECT * FROM LOCKER ORDER BY LOCKER_ID
 	</select>
 	
-	<select id="getLocker" parameterType="string" resultType="locker">
+	<select id="getLockerList_bid" parameterType="int" resultType="locker">
+		SELECT * FROM LOCKER ORDER BY #{branch_id}
+	</select>
+	
+	<select id="getLocker" parameterType="int" resultType="locker">
 		SELECT * FROM LOCKER WHERE ID = #{locker_id}
 	</select>
 	

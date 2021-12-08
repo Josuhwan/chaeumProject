@@ -9,4 +9,7 @@ public interface UserService {
 	void userUpdate(MemberVO vo);
 	void userSignout(String email);
 	void passFind(MemberVO vo);
+	MemberVO signinCheck(MemberVO vo);
+	int passChk(MemberVO vo);
+	int loginChk(String email);
 }

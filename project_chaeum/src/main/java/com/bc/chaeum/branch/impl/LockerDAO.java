@@ -22,6 +22,10 @@ public class LockerDAO {
 	}
 	
 	public List<LockerVO> getLockerList(LockerVO vo){
-		return mybatis.selectList("locker.getBranchList", vo);
+		return mybatis.selectList("locker.getLockerList", vo);
+	}
+	
+	public List<LockerVO> getLockerList(int branch_id){
+		return mybatis.selectList("locker.getLockerList_bid", branch_id);
 	}
 }

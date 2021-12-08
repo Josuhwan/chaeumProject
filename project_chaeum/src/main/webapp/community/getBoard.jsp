@@ -7,17 +7,7 @@
 <meta charset="UTF-8">
 <title>글상세</title>
 <style>
-	#container { width: 700px; margin: 0 auto; }
-	h1, h3, p { text-align: center; }
-	table { border-collapse: collapse; }
-	table, th, td {
-		border: 1px solid black;
-		margin: 0 auto;
-	}
-	th { background-color: orange; }
-	.center { text-align: center; }
-	
-	.border-none, .border-none td { border: none; }
+
 </style>
 <script>
 $(document).ready(function(){
@@ -37,13 +27,13 @@ function getReplyList() {
 				var tbody ="";
 
 				$.each(data, function(index, reply){
-					tbody += "<tr align='center' data-r_id='" + this.r_id+ "'data-board_id='" + this.board_id+"' ' >";
-					tbody += "<td width=20%;>" + this.nickname + "</td>";
-					tbody += "<td width=50%;>" + this.r_content + "</td>";
-					tbody += "<td width=30%;>" + this.r_regdate + "</td>";
+					tbody += "<tr align='center'  data-r_id='" + this.r_id+ "'data-board_id='" + this.board_id+"' ' >";
+					tbody += "<td width=15%;>" + this.nickname + "</td>";
+					tbody += "<td width=60%;>" + this.r_content + "</td>";
+					tbody += "<td width=15%;>" + this.r_regdate + "</td>";
 					if(this.r_writer == "${sessionScope.user.email}") {
-					tbody += "<td><input type='button' class='modifyReply' id='modifyReply'  value='수정'></td>"
-					tbody += "<td><input type='button' class='deleteBtn' id='deleteReply' value='삭제'></td>"
+					tbody += "<td width=5%;><input type='button' class='modifyReply' id='modifyReply'  value='수정'></td>"
+					tbody += "<td width=5%;><input type='button' class='deleteBtn' id='deleteReply' value='삭제'></td>"
 					}
 					tbody += "</tr>";
 					
@@ -59,6 +49,12 @@ function getReplyList() {
 	
  // Ajax 댓글작성
 	function writerReply() { 
+		
+		if($("#r_content").val() == "") {
+			 alert("내용을 입력해주세요");
+			 return;
+		 } 
+	 
 	$.ajax({
 		url: "writerReply.do",
 		type: "post",
@@ -93,6 +89,7 @@ $(document).on("click", ".deleteBtn", function() {
 
 // 댓글 수정 버튼 클릭 -> 폼 변경 -> 데이터 담기
 $(document).on("click", ".modifyReply", function() {
+	$("#modifyForm").hide();
    if(confirm("댓글을 수정하시겠습니까?")) {
    		var r_id = $(this).parent().parent().data("r_id");
 	   
@@ -112,22 +109,23 @@ $(document).on("click", ".modifyReply", function() {
 function ModifyReplyForm(reply) {
 	
 	var output = "";
-      output += '   <div class="media-body" id="modifyForm">';
+      output += '   <div class="media-body" id="modifyForm" style="align: center; width: 80%;>';
       output += '     <h6><b>' + reply.nickname +'</b></h6>';
       output += '     <div style="float:left" data-r_id="' + reply.r_id + '" data-board_id="' + reply.board_id + '">';
-      output += '        <textarea id="modifiedContent" rows="4" style="width:706px" placeholder="내용을 입력해주세요">' + reply.r_content +'</textarea>';      
-      output += '        <button id= "modifyComplete" >수정</button>';
-      output += '        <button id= "" >취소</button>';
+      output += '        <textarea id="modifiedContent" class="form-control" rows="4">' + reply.r_content +'</textarea>';      
+      output += '        <button id= "modifyComplete" class="btn btn-default" style="background-color: #BBDEFB;" >수정</button>';
+      output += '        <button id= "modifyCancel" class="btn btn-default" style="background-color: #BBDEFB;" >취소 </button><br><br>';
       output += '     </div>';
       output += '   </div>';
    $("#modi").append(output);   
    
 }
 
+
 // 댓글 수정완료버튼
 
  $(document).on("click", "#modifyComplete", function() {
-	 alert("여긴오나요");
+	
       var r_content = $("#modifiedContent").val();
       var board_id = $(this).parent().data("board_id");
       var r_id  = $(this).parent().data("r_id");
@@ -147,92 +145,113 @@ function ModifyReplyForm(reply) {
       } 
       
    });
+   
+ $(document).on("click", "#modifyCancel", function() {
+	 $("#modifyForm").hide();
+ });
 </script>
 </head>
 <body>
-<div class="content-wrapper" align="center">
-	<div class="row" style="width: 75%">
-		<div class="col-md-12 grid-margin stretch-card">
-			<div class="card position-relative">
-			<br>
-			<br>
-			<br>
-			
-<div id="container">
-	<h1>${board.title }</h1>
-	
-	<form action="updateBoard.do" method="get">
-		<input type="hidden" name="seq" value="${board.board_id }">
-	<table>
-		
-		<tr>
-			<th>작성자</th>
-			<td>${board.nickname }</td>
-		</tr>
-		<tr>
-			<th>내용</th>
-			<td>
-			${board.b_contents }
-			</td>
-		</tr>
-		<tr>
-			<th>작성일</th>
-			<td>${board.b_regdate }</td>
-		</tr>
-		<tr>
-			<th>조회수</th>
-			<td>${board.count }</td>
-		</tr>
-		<c:if test ="${sessionScope.user.nickname == board.nickname}">
-		<tr>
-			<td colspan="2" class="center">
-				<input type="submit" value="글 수정">
-			</td>
-		</tr>
-		</c:if>
-	</table>
-	</form>
-	
-	<p>
-		<c:if test ="${sessionScope.user.nickname == board.nickname}">  
-		<a href="deleteBoard.do?board_id=${board.board_id }">글삭제</a>
-		</c:if>
-		<a href="getFreeBoardList.do">글목록</a>
-	</p>
-	
-</div>
-	<h3 align="left">댓글</h3>
-     	 <ul id="replyList">
-     	 </ul>
-         	<table class='table table-striped table-bordered' >
-			 	<tbody id="tbody">
-			   		
-			 	</tbody>
-			 	<tfoot>
-			 	<tfoot>
-			 </table>	
-     
-      		<!-- 댓글 라인 -->
-         <div class="input-group" role="group" aria-label="..." style="margin-top: 10px; width: 100%;">
-   			<div id="showComment" style="text-align: center;"></div>
-		 </div>
+	<div class="content-wrapper" align="center">
+		<div class="row" style="width: 75%">
+			<div class="col-md-12 grid-margin stretch-card">
+				<div class="card position-relative">
+					<br> <br> <br>
+					
+					<div id="container">
+						<h1 class ="display-1">${board.title }</h1>
+						<br>
+						
+						
+						<form action="updateBoard.do" method="get">
+							<input type="hidden" name="board_id" value="${board.board_id }">
+						<br>
+						
+							<div style="position: absolute; left: 75%;">
+								<div>작성자 by ${board.nickname }</div>
+								<div>${board.b_regdate } / 조회수${board.count }</div>
+							
+							</div>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<div class ="display-4">${board.b_contents }</div>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<div style="width: 10%; float:right; margin-right: 5%;">
+							<span>
+							<c:if test="${sessionScope.user.nickname == board.nickname}">
+								<input type="submit" value="글 수정" class="btn btn-inverse-primary btn-block">
+									<td><button type="button" class="btn btn-inverse-primary btn-block" onclick="location.href='deleteBoard.do?board_id=${board.board_id }'">
+									글삭제</button>
+								
+							</c:if>
+							<button type="button" class="btn btn-inverse-primary btn-block" onclick="location.href='getFreeBoardList.do'">
+									글목록</button><br><br>
+									
+						</span>	
+						</div>
+						</form>
 
-			<!-- 댓글 작성창 -->
-		<div id ="modi" class="modi">
+					<br>
+					</div>
+					<hr>
+					<br>
+					
+					
+					<h4 align="center">댓글</h4>
+					<ul id="replyList">
+					</ul>
+					<div>
+					<table class='table table-striped table-bordered' style="align: center; width: 80%; ">
+						<tbody id="tbody">
+
+						</tbody>
+						<tfoot>
+						<tfoot>
+					</table>
+					<br>
+					</div>
+					<!-- 댓글 라인 -->
+					<div class="input-group" role="group" aria-label="...">
+						<div id="showComment" style="text-align: center; width: 80%;"></div>
+					</div>
+				
+
+					<!-- 댓글 작성창 -->
+					<div id="modi" class="modi"></div>
+
+					<c:if test="${sessionScope.user.nickname ne null}">
+						<div>
+						<textarea class="form-control" rows="3" id="r_content"
+							placeholder="댓글을 입력하세요." style="width: 80%;"></textarea>
+					
+						<input type="button" class="btn btn-inverse-info btn-block" value="댓글 쓰기"
+							id="replyWrite" onclick="writerReply()"
+							style="background-color: #BBDEFB; width: 80%;">
+						</div>
+					</c:if>
+					<br> <br> <br>
+				</div>
+			</div>
 		</div>
-		
-		<c:if test ="${sessionScope.user.nickname ne null}">        	
-   		<textarea class="form-control" rows="3" id="r_content" placeholder="댓글을 입력하세요." style="width: 100%;" ></textarea>
-		
-           <input type="button" class="btn btn-default" value="댓글 쓰기" id="replyWrite" onclick="writerReply()"
-           style ="background-color: #BBDEFB;float: right;">
-           </c:if>
-		<br>
-		<br>
-		<br>
-</div>
-</div>
-</div>
-</div>		
+	</div>
 </body>
 </html>

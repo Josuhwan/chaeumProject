@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bc.chaeum.admin.service.AdminService;
 import com.bc.chaeum.admin.service.AdminVO;
+import com.bc.chaeum.board.service.BoardVO;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService{
@@ -63,8 +64,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<AdminVO> visitcntlist(AdminVO vo) {
-		return adminDAO.visitcntlist(vo);
+	public List<AdminVO> visitcntlist() {
+		return adminDAO.visitcntlist();
 	}
 	
 	//현재 시간 기준으로 방문자 수 업데이트
@@ -83,6 +84,34 @@ public class AdminServiceImpl implements AdminService{
 	public AdminVO lastMonth_regcnt(AdminVO vo1) {
 		return adminDAO.selectMonth_regcnt(vo1);
 	}
+	
+	//================================================
+	//게시판 관리
+	//공지사항
+	@Override
+	public List<BoardVO> allnoticeboard() {
+		return adminDAO.allnoticeboard();
+	}
 
+	@Override
+	public List<BoardVO> getnoticelist(int begin, int end) {
+		return adminDAO.getnoticelist(begin, end);
+	}
+	
+	//자유게시판
+	@Override
+	public List<BoardVO> allfreeboard() {
+		return adminDAO.allfreeboard();
+	}
+
+	@Override
+	public List<BoardVO> getfreeboardlist(int begin, int end) {
+		return adminDAO.getfreeboardlist(begin, end);
+	}
+
+	@Override
+	public BoardVO oneAdminBoard(BoardVO vo) {
+		return adminDAO.oneAdminBoard(vo);
+	}
 
 }

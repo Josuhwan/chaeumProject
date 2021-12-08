@@ -14,8 +14,7 @@ import com.bc.chaeum.common.SearchCriteria;
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
 	@Autowired //타입이 일치하는 객체(인스턴스) 주입
-	//private BoardDAO boardDAO;
-	//private BoardDAOSpring boardDAO;
+
 	private BoardDAO boardDAO;
 
 	public BoardServiceImpl() {
@@ -64,5 +63,27 @@ public class BoardServiceImpl implements BoardService {
 	public int listCount(SearchCriteria scri) {
 		return boardDAO.listCount(scri);
 	}
+
+	@Override
+	public List<BoardVO> getBoardList_F(SearchCriteria scri) {
+		// TODO Auto-generated method stub
+		return boardDAO.getBoardList_F(scri);
+	}
+
+	@Override
+	public List<BoardVO> getBoardList2(String email) {
+		
+		return boardDAO.getBoardList2(email);
+	}
+
+	
+	/*
+	@Override
+	public List<BoardVO> getBoardList_F(BoardVO vo) {
+		// TODO Auto-generated method stub
+		return boardDAO.getBoardList_F(vo);
+	}
+	*/
+
 
 }

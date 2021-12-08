@@ -10,6 +10,7 @@
 	
 	
 	<typeAliases>
+		<typeAlias alias="message" type="com.bc.chaeum.member.service.MessageVO" />
 		<typeAlias alias="board" type="com.bc.chaeum.board.service.BoardVO" />
 		<typeAlias alias="reply" type="com.bc.chaeum.board.service.ReplyVO" />
 		<typeAlias alias="member" type="com.bc.chaeum.member.service.MemberVO" />
@@ -18,6 +19,8 @@
 		<typeAlias alias="seat" type="com.bc.chaeum.branch.service.SeatVO" />
 		<typeAlias alias="locker" type="com.bc.chaeum.branch.service.LockerVO" />
 		<typeAlias alias="admin" type="com.bc.chaeum.admin.service.AdminVO"/>
+		<typeAlias alias="reservation" type="com.bc.chaeum.reservation.service.ReservationVO"/>
+		<typeAlias alias="payment" type="com.bc.chaeum.payment.service.PaymentVO"/>
 	</typeAliases>
 	
 	

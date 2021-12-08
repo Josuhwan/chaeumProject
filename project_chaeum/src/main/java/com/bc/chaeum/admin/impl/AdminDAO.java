@@ -1,12 +1,15 @@
 package com.bc.chaeum.admin.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bc.chaeum.admin.service.AdminVO;
+import com.bc.chaeum.board.service.BoardVO;
 
 @Repository
 public class AdminDAO {
@@ -45,8 +48,8 @@ public class AdminDAO {
 		return mybatis.selectOne("selectMonth_regcnt", vo);
 	}
 
-	public List<AdminVO> visitcntlist(AdminVO vo) {
-		return mybatis.selectList("visitcntlist", vo);
+	public List<AdminVO> visitcntlist() {
+		return mybatis.selectList("visitcntlist");
 	}
 
 	public void updatevisitcnt(String now) {
@@ -61,5 +64,31 @@ public class AdminDAO {
 			mybatis.insert("insertvisitcnt", now);
 		}
 		System.out.println("row 값 체크 : " + row);
+	}
+	
+	public List<BoardVO> allnoticeboard(){
+		return mybatis.selectList("allnoticeboard");
+	}
+
+	public List<BoardVO> getnoticelist(int begin, int end) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("begin", begin);
+		map.put("end", end);
+		return mybatis.selectList("getnoticelist", map);
+	}
+
+	public List<BoardVO> allfreeboard() {
+		return mybatis.selectList("allfreeboard");
+	}
+
+	public List<BoardVO> getfreeboardlist(int begin, int end) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("begin", begin);
+		map.put("end", end);
+		return mybatis.selectList("getfreeboardlist", map);
+	}
+
+	public BoardVO oneAdminBoard(BoardVO vo) {
+		return mybatis.selectOne("oneAdminBoard", vo);
 	}
 }

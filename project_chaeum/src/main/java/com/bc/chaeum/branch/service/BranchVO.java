@@ -7,6 +7,8 @@ public class BranchVO {
 	private String branch_addr;
 	private String branch_tel;
 	private String branch_info;
+	private double branch_latitude;
+	private double branch_longitude;
 	public BranchVO() {
 		System.out.println(">> BranchVO() 객체생성");
 	}
@@ -44,12 +46,33 @@ public class BranchVO {
 	public void setBranch_info(String branch_info) {
 		this.branch_info = branch_info;
 	}
+	
+	
+
+	public double getBranch_latitude() {
+		return branch_latitude;
+	}
+
+	public void setBranch_latitude(double branch_latitude) {
+		this.branch_latitude = branch_latitude;
+	}
+
+	public double getBranch_longitude() {
+		return branch_longitude;
+	}
+
+	public void setBranch_longitude(double branch_longitude) {
+		this.branch_longitude = branch_longitude;
+	}
 
 	@Override
 	public String toString() {
 		return "BranchVO [branch_id=" + branch_id + ", branch_name=" + branch_name + ", branch_addr=" + branch_addr
-				+ ", branch_tel=" + branch_tel + "]";
+				+ ", branch_tel=" + branch_tel + ", branch_info=" + branch_info + ", branch_latitude=" + branch_latitude
+				+ ", branch_longitude=" + branch_longitude + "]";
 	}
+
+	
 	
 	
 }

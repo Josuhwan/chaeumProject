@@ -9,7 +9,7 @@
 
 	<!-- base-package 설정위치 포함 하위 패키지 모두 검색 처리
 		여러개 선언해도 되고, 구분자(빈칸,콤마,세미콜른 등) -->
-	<context:component-scan base-package="com.bc.chaeum.branch, com.bc.chaeum.member, com.bc.chaeum.admin, com.bc.chaeum.board" />
+	<context:component-scan base-package="com.bc.chaeum.branch, com.bc.chaeum.member, com.bc.chaeum.admin, com.bc.chaeum.board, com.bc.chaeum.reservation, com.bc.chaeum.payment" />
 	
 	<!-- === Spring JDBC 관련 설정 === -->
 	<!-- DataSource 설정 -->
@@ -17,8 +17,8 @@
 			destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="test" />
-		<property name="password" value="test" />
+		<property name="username" value="chaeum" />
+		<property name="password" value="chaeumpw" />
 	</bean>
 	
 	<!-- 스프링JDBC : JdbcTemplate 객체 생성 -->

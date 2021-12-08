@@ -8,4 +8,5 @@ public interface LockerService {
 	void deleteLocker(LockerVO vo);
 	LockerVO getLocker(LockerVO vo);
 	List<LockerVO> getLockerList(LockerVO vo);
+	List<LockerVO> getLockerList(int branch_id);
 }

@@ -5,68 +5,69 @@
 <head>
 <meta charset="UTF-8">
 <title>글상세</title>
+
 <style>
-	#container { width: 700px; margin: 0 auto; }
-	h1, h3, p { text-align: center; }
-	table { border-collapse: collapse; }
-	table, th, td {
-		border: 1px solid black;
-		margin: 0 auto;
-	}
-	th { background-color: orange; }
-	.center { text-align: center; }
-	
-	.border-none, .border-none td { border: none; }
+.card-body {
+	padding: 2.25rem 10.25rem;
+}
 </style>
 </head>
+
 <body>
-
 <div id="container">
-	<h1>글상세(getBoard.jsp)</h1>
-	<p><a href="logout.do">로그아웃</a></p>
-	
-	<form action="updateBoard.do" method="post">
-		<input type="hidden" name="seq" value="${board.board_id }">
-	<table>
-		<tr>
-			<th width="70">제목</th>
-			<td>
-				<input type="text" name="title" value="${board.title }">
-			</td>
-		</tr>
-		<tr>
-			<th>작성자</th>
-			<td>${board.email }</td>
-		</tr>
-		<tr>
-			<th>내용</th>
-			<td>
-				<textarea name="b_contents" rows="10" cols="40">${board.b_contents }</textarea>
-			</td>
-		</tr>
-		<tr>
-			<th>작성일</th>
-			<td>${board.b_regdate }</td>
-		</tr>
-		<tr>
-			<th>조회수</th>
-			<td>${board.count }</td>
-		</tr>
-		<tr>
-			<td colspan="2" class="center">
-				<input type="submit" value="글 수정">
-			</td>
-		</tr>
-	</table>
-	</form>
-	
-	<p>
-		<a href="insertBoard.jsp">글등록</a>
-		<a href="deleteBoard.do?board_id=${board.board_id }">글삭제</a>
-		<a href="getBoardList.do">글목록</a>
-	</p>
-	
-</div>
+	<div class="content-wrapper" align="center">
+		<div class="row" style="width: 75%">
+			<div class="col-md-12 grid-margin stretch-card">
+				<div class="card position-relative">
 
+					<div class="card">
+						<div class="card-body" style="padding: 2.25rem 10.25rem;">
+							<div id="container">
+								<h1>글수정</h1>
+
+								<br> <br>
+							</div>
+
+							<form action="updateBoard.do" method="post">
+								<input type="hidden" name="seq" value="${board.board_id }">
+								
+								<div class="form-group row" align="left">
+									<label for="exampleInputMobile"
+										class="col-sm-10 col-form-label"></label> <label
+										for="exampleInputMobile" class="col-sm-2 col-form-label">
+										by ${board.nickname }</label>
+
+								</div>
+
+								<div class="form-group row">
+									<label for="exampleInputEmail2" class="col-sm-3 col-form-label">제목</label>
+									<div class="col-sm-9">
+										<input class="form-control" id="title" type="text" name="title" value="${board.title }">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label for="exampleInputPassword2"
+										class="col-sm-3 col-form-label">내용</label>
+									<div class="col-sm-9">
+										<textarea class="form-control" id="exampleTextarea1"
+											name="b_contents" rows="10" cols="40">${board.b_contents }</textarea>
+									</div>
+								</div>
+
+								<br>
+
+								<button type="submit" class="btn btn-primary mr-2" >글수정</button>
+								<button class="btn btn-light"
+									onclick="href='getFreeBoardList.do'">취소</button>
+							</form>
+							<br> <br>
+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

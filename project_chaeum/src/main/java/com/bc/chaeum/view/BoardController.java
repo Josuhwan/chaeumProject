@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.bc.chaeum.board.service.BoardService;
 import com.bc.chaeum.board.service.BoardVO;
-import com.bc.chaeum.common.Criteria;
 import com.bc.chaeum.common.PageMaker;
 import com.bc.chaeum.common.SearchCriteria;
 
@@ -49,7 +48,7 @@ public class BoardController {
 	@RequestMapping("/getFreeBoardList.do")
 	public String getBoardList(@ModelAttribute("scri") SearchCriteria scri, Model model) {
 		System.out.println(">>> 게시글 목록 보여주기");
-		
+		scri.setBoardtype("자유게시판");
 		List<BoardVO> boardList = boardService.getBoardList(scri);
 		
 		model.addAttribute("boardList", boardList);
@@ -70,16 +69,26 @@ public class BoardController {
 	}	
 	
 	@RequestMapping("/getNoticeBoardList.do")
-	public String getNoticeBoardList(BoardVO vo, Criteria cri, Model model) {
-		System.out.println(">>> 게시글 목록 보여주기");
-		System.out.println(":: getBoardList() vo : " + vo);
-//		List<BoardVO> boardList = boardService.getBoardList(vo);
+	public String getNoticeBoardList(@ModelAttribute("scri") SearchCriteria scri, Model model) {
+		System.out.println(">>> 공지사항 목록 보여주기");
+		scri.setBoardtype("공지사항");
+		List<BoardVO> boardList = boardService.getBoardList(scri);
+		model.addAttribute("boardList", boardList);
 		
-//		model.addAttribute("boardList", boardList);
+		PageMaker pageMaker = new PageMaker();
+		
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(boardService.listCount(scri));
+		
+		model.addAttribute("pageMaker", pageMaker);		
+		
+		System.out.println("boardList :" + boardList );
+		System.out.println("pageMaker : " + pageMaker);
 		
 		return "index.jsp?contentPage=community/noticeBoard.jsp";
 
 	}	
+
 	
 	@PostMapping("/insertBoard.do")
 	public String insertBoard(BoardVO vo) {
@@ -116,4 +125,3 @@ public class BoardController {
 	
 	
 }
-

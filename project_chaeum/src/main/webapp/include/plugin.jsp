@@ -23,3 +23,13 @@
 <!-- End custom js for this page-->
 
 
+
+  <script src="resources/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+  <script src="resources/js/owl-carousel.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="resources/assets/vendor/aos/aos.js"></script>
+  <script src="resources/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="resources/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <script src="resources/assets/js/main.js"></script>

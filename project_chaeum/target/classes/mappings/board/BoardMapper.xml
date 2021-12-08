@@ -4,8 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="boardDAO">
-	
-	
 	<!--  글쓰기 -->
 	<insert id="insertBoard" parameterType="board">
 		INSERT INTO BOARD (BOARD_ID, TITLE, B_CONTENTS, B_REGDATE, BOARDTYPE,
@@ -13,17 +11,25 @@
 		VALUES ((SELECT NVL(MAX(BOARD_ID),0)+1 FROM BOARD), #{title}, #{b_contents}, SYSDATE, #{boardtype},  
 				0, #{email}, '사용')
 	</insert>
+
 	
 	<!-- 글 목록 --> 
 	<select id="getBoardList" parameterType="com.bc.chaeum.common.Criteria" resultType="board">
 		SELECT S.BOARD_ID, S.TITLE, S.COUNT, S.B_REGDATE, S.NICKNAME, S.BOARDTYPE, S.B_CONTENTS
-  		  FROM (SELECT B.BOARD_ID, B.TITLE, B.COUNT, B.B_REGDATE, M.NICKNAME, B.BOARDTYPE, B.B_CONTENTS, ROW_NUMBER() OVER(ORDER BY B.BOARD_ID) AS RNUM 
+  		  FROM (SELECT B.BOARD_ID, B.TITLE, B.COUNT, B.B_REGDATE, M.NICKNAME, B.BOARDTYPE, B.B_CONTENTS, ROW_NUMBER() OVER(ORDER BY B.BOARD_ID DESC) AS RNUM 
                   FROM BOARD B, MEMBER M
-                 WHERE B.EMAIL = M.EMAIL AND B_USEABLE = '사용') S
+                 WHERE B.EMAIL = M.EMAIL AND B_USEABLE = '사용' AND BOARDTYPE = #{boardtype}) S 
 		WHERE 1=1
 		AND RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		<include refid="search"></include>
 		ORDER BY BOARD_ID DESC
+	
+	</select>
+	
+	<select id="getBoardList2" parameterType="String" resultType="board">
+		SELECT *
+		  FROM BOARD
+		  WHERE EMAIL = #{email}
 	
 	</select>
 	
@@ -33,6 +39,7 @@
 		   WHERE 1=1
 		<include refid="search"></include>	
 		   AND BOARD_ID > 0
+		   AND BOARDTYPE = #{boardtype}
 	</select>
 	
 	<sql id="search">
@@ -76,22 +83,6 @@
     	 WHERE BOARD_ID = #{board_id}
     </update>
 	
-	<!-- 게시글 검색 --> 
-	<select id="getBoardList_T" parameterType="board" resultType="board">
-		SELECT * FROM BOARD 
-		WHERE TITLE LIKE '%'|| #{searchKeyword} ||'%'
-		ORDER BY BOARD_ID DESC
-	</select>
-	<select id="getBoardList_C" parameterType="board" resultType="board">
-		SELECT * FROM BOARD 
-		WHERE B_CONTENTS LIKE '%'|| #{searchKeyword} ||'%'
-		ORDER BY BOARD_ID DESC
-	</select>
-	<select id="getBoardList_N" parameterType="board" resultType="member">
-		SELECT * FROM MEMBER 
-		WHERE NICKNAME LIKE '%'|| #{searchKeyword} ||'%'
-	</select>
-		
 </mapper>
 
 

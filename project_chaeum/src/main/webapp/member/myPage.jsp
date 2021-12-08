@@ -6,13 +6,121 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+	var pwd = "0";
 	
+	<!-- 회원탈퇴 -->
 	function signout() {
-		alert("눌립니까");
+		var m_pass = $("#m_pass3").val();
 		var email = "${sessionScope.user.email}";
-		location.href="signout.do?email="+ email;
+	
+		if(pwd == "0") {
+			$("#m_pass3").val("");
+			$("#m_pass4").val("");
+			$("#passCheck2").html('<h6 style="color:red;">같은 비밀번호를 입력해주세요</h6>');
+			
+		} else if (pwd == "1" ){
+			
+			$.ajax({
+				url: "passChk.do" ,
+				type: "POST",
+				data:{ email : email,
+					   m_pass : m_pass },
+				success:function(rs) {
+					if (rs == "1") {
+						location.href="signout.do?email="+ email;
+						alert("회원탈퇴 완료");
+					} else if (rs == "0") {
+						$("#passCheck2").html('<h6 style="color:red;">비밀번호가 일치하지 않습니다</h6>');
+					}
+				}
+			});
+		}
+	}
+	
+	<!-- 회원수정 -->
+	function update() {
+		var m_pass = $("#m_pass9").val();
+		var email = "${sessionScope.user.email}";
+	
+		if(pwd == "0") {
+			$("#m_pass9").val("");
+			$("#m_pass0").val("");
+			$("#passCheck3").html('<h6 style="color:red;">같은 비밀번호를 입력해주세요</h6>');
+			
+		} else if (pwd == "1" ){
+			
+			$.ajax({
+				url: "passChk.do" ,
+				type: "POST",
+				data:{ email : email,
+					   m_pass : m_pass },
+				success:function(rs) {
+					if (rs == "1") {
+						document.update_frm.submit();
+						alert("회원수정 완료");
+					} else if (rs == "0") {
+						$("#passCheck2").html('<h6 style="color:red;">비밀번호가 일치하지 않습니다</h6>');
+					}
+				}
+			});
+		}
+	}
+	
+	<!-- 비밀번호 확인-->
+	function passCheck() {
+		var pass1 = $("#m_pass3").val();
+		var pass2 = $("#m_pass4").val();
+		var pass3 = $("#m_pass9").val();
+		var pass4 = $("#m_pass0").val();
+	
 		
+		if ( pass1 != pass2 ) {
+			$("#passCheck2").html('<h6 style="color:red;">같은 비밀번호를 입력해주세요</h6>');
+			pwd = "0";
+			
+		} else if ( pass1 == pass2 ){
+			$("#passCheck2").html('<h6 style="color:green;">같은 비밀번호입니다</h6>');
+			pwd = "1";
+			
+		}
+		
+		if ( pass3 != pass4 ) {
+			$("#passCheck3").html('<h6 style="color:red;">같은 비밀번호를 입력해주세요</h6>');
+			pwd = "0";
+			
+		} else if ( pass3 == pass4 ){
+			$("#passCheck3").html('<h6 style="color:green;">같은 비밀번호입니다</h6>');
+			pwd = "1";
+			
+		}
+	}
+	
+	<!-- 닉네임 중복확인 Ajax -->
+	function checkName() {
+		var inputName = $("#nickname1").val(); 
+		var checkName= RegExp(/^[가-힣]{2,8}$/);
+		$.ajax({
+			url: "checkName.do?nickname=" + inputName,
+			type: "POST",
+			success:function(rs){
+				if(rs == "0") { // 0일경우는 사용 가능한 아이디
+					if(!checkName.test(inputName)){
+						$("#checkN1").html('<h6 style="color:red;">(2~8자)한글만 사용가능합니다</h6>');
+					} else {
+						$("#checkN1").html('<h6 style="color:green;">사용가능한 닉네임입니다</h6>');
+					}
+				} else { // 아이디가 존재할 경우
+					$("#checkN1").html('<h6 style="color:red;">이미 사용중인 닉네임입니다</h6>');
+				}
+				
+			},
+			error:function(){
+				
+			}
+		
+		});
 	}
 </script>
 </head>
@@ -22,30 +130,21 @@
 		<div class="row" style="width: 75%">
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card position-relative">
-					<br> <br>
-					<h2>회원정보</h2>
-					<br> <br>
-					<h2>${sessionScope.user.nickname}님정보입니다</h2>
-					<br> <br>
-					<h2>회원정보관리-(수정탈퇴)</h2>
-					<h2>예약내역?</h2>
-					<h2>결제내역?</h2>
-					<h2>내가 쓴 글</h2>
-					<h2>내가 쓴 댓글</h2>
-
-
+	
 					<div class="content-wrapper">
 						<div class="row">
-
-							<div class="col-md-6 grid-margin stretch-card">
-								<div class="card"></div>
-							</div>
+							
 							<div class="col-12 grid-margin stretch-card">
 								<div class="card">
-									<div class="card-body">
-										<h4 class="card-title">회원정보</h4>
-										
-										<form class="forms-sample" action="userUpdate.do">
+									<div class="card-body" style="padding: 1.25rem 15.25rem;">
+										<br>
+										<br>
+										<br>
+										<h2 class="h2">회원정보</h2>
+										<br>
+										<br>
+											<br>
+										<form class="forms-sample" name = "update_frm" id ="update_frm" action="userUpdate.do" >
 											<div class="form-group">
 											<input type="hidden" name= "email" value ="${sessionScope.user.email}">
 												<label for="exampleInputEmail3">이메일</label> <input
@@ -54,16 +153,18 @@
 											</div>
 											<div class="form-group">
 												<label for="exampleInputName1" >닉네임</label> <input
-													type="text" class="form-control" id="exampleInputName1"
-													placeholder="${sessionScope.user.nickname}" name="nickname">
+													type="text" class="form-control" id="nickname1"
+													placeholder="${sessionScope.user.nickname}" name="nickname"  oninput="checkName()">
 											</div>
+											<div id="checkN1"></div>
+											<br>
 											<div class="form-group">
-												<label for="exampleInputPassword4">비밀번호</label> <input
+												<label for="exampleInputPassword4">변경 할 비밀번호</label> <input
 													type="password" class="form-control"
 													id="exampleInputPassword4" name="m_pass">
 											</div>
 											<div class="form-group">
-												<label for="exampleInputPassword4">비밀번호확인</label> <input
+												<label for="exampleInputPassword4">변경 할 비밀번호 확인</label> <input
 													type="password" class="form-control"
 													id="exampleInputPassword5" >
 											</div>
@@ -86,83 +187,66 @@
 													type="text" class="form-control" id="exampleInputCity1"
 													placeholder="${sessionScope.user.rank}" disabled>
 											</div>
+											<!--  
 											<div class="form-group">
 												<label for="exampleInputCity1">마일리지</label> <input
 													type="text" class="form-control" id="exampleInputCity1"
 													placeholder="" disabled><button>충전</button>
 											</div>
+											-->
 											<br>
-											<button type="submit" class="btn btn-primary mr-2">회원수정</button>
+											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#update">회원수정</button> 
+									
 											
 										</form>
 										<br>
-										<button class="btn btn-light" onclick="signout()">회원탈퇴</button>
+										<button type="button" class="btn btn-light" data-toggle="modal" data-target="#signout">회원탈퇴</button> 
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6 grid-margin stretch-card">
+							<div class="col-md-12 grid-margin stretch-card">
 								<div class="card">
 									<div class="card-body">
 										<h4 class="card-title">예약내역</h4>
-
-										<div class="form-group">
-											<label>Large input</label> <input type="text"
-												class="form-control form-control-lg" placeholder="Username"
-												aria-label="Username">
-										</div>
-										<div class="form-group">
-											<label>Default input</label> <input type="text"
-												class="form-control" placeholder="Username"
-												aria-label="Username">
-										</div>
-										<div class="form-group">
-											<label>Small input</label> <input type="text"
-												class="form-control form-control-sm" placeholder="Username"
-												aria-label="Username">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6 grid-margin stretch-card">
-								<div class="card">
-									<div class="card-body">
-										<h4 class="card-title">결제내역</h4>
-
-										<div class="form-group">
-											<label for="exampleFormControlSelect1">Large select</label> <select
-												class="form-control form-control-lg"
-												id="exampleFormControlSelect1">
-												<option>1</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<label for="exampleFormControlSelect2">Default select</label>
-											<select class="form-control" id="exampleFormControlSelect2">
-												<option>1</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<label for="exampleFormControlSelect3">Small select</label> <select
-												class="form-control form-control-sm"
-												id="exampleFormControlSelect3">
-												<option>1</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
-											</select>
+										<br><br>
+										<div class="row">
+											<div class="col-12">
+												<div class="table-responsive">
+													<table id="order-listing" class="table">
+														<thead>
+															<tr>
+																<th>예약번호</th>
+																<th>사용 예정일</th>
+																<th>사용자 닉네임</th>
+																<th>예약 금액</th>
+																<th>Status</th>
+																<th>상세보기</th>
+															</tr>
+														</thead>
+														<tbody>
+															<c:forEach var="reservation" items="${RevList }">
+																<tr>
+																	<td>${reservation.reservation_id }</td>
+																	<td>${reservation.reservation_date }</td>
+																	<td>${user.nickname }</td>
+																	<td>${reservation.reservation_price }원</td>
+																	<td><label class="badge badge-danger">결제완료</label>
+																	</td>
+																	<td>
+																		<button class="btn btn-outline-primary"
+																			onclick="location.href='getReservation.do?reservation_id=${reservation.reservation_id }'">View</button>
+																	</td>
+																</tr>
+															</c:forEach>
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+
 							<div class="col-md-6 grid-margin stretch-card">
 								<div class="card">
 									<div class="card-body">
@@ -172,11 +256,10 @@
 
 										<table class="table table-bordered">
 											<thead>
-												<tr>
-													<th style="width: 5%">글번호</th>
-													<th style="width: 35%">제목</th>
-													<th style="width: 40%">작성일</th>
-													<th style="width: 20%"></th>
+												<tr align="center">
+													<th style="width: 70%">제목</th>
+													<th style="width: 20%">작성일</th>
+													<th style="width: 10%">상세보기</th>
 
 												</tr>
 											</thead>
@@ -185,8 +268,8 @@
 												<c:if test="${not empty boardList }">
 													<c:forEach var="board" items="${boardList }">
 														<c:if test="${board.email == sessionScope.user.email}">
-															<tr>
-																<td class="center">${board.board_id }</td>
+															<tr align="center">
+															
 																<td>${board.title }</td>
 																<td>${board.b_regdate }</td>
 																<td><a
@@ -210,11 +293,10 @@
 
 										<table class="table table-bordered">
 											<thead>
-												<tr>
-													<th style="width: 5%">글번호</th>
-													<th style="width: 35%">댓글내용</th>
-													<th style="width: 40%">작성일</th>
-													<th style="width: 20%"></th>
+												<tr align="center">
+													<th style="width: 70%">댓글내용</th>
+													<th style="width: 20%">작성일</th>
+													<th style="width: 10%">상세보기</th>
 
 												</tr>
 											</thead>
@@ -223,8 +305,8 @@
 												<c:if test="${not empty rlist }">
 													<c:forEach var="reply" items="${rlist }">
 														<c:if test="${reply.r_writer == sessionScope.user.email}">
-															<tr>
-																<td class="center">${reply.r_id }</td>
+															<tr align="center">
+																
 																<td>${reply.r_content }</td>
 																
 																<td>${reply.r_regdate }</td>
@@ -238,192 +320,8 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="card-body"></div>
 								</div>
 							</div>
-							<div class="col-12 grid-margin stretch-card">
-								<div class="card">
-									<div class="card-body">
-										<h4 class="card-title">Inline forms</h4>
-										<p class="card-description">
-											Use the
-											<code>.form-inline</code>
-											class to display a series of labels, form controls, and
-											buttons on a single horizontal row
-										</p>
-										<form class="form-inline">
-											<label class="sr-only" for="inlineFormInputName2">Name</label>
-											<input type="text" class="form-control mb-2 mr-sm-2"
-												id="inlineFormInputName2" placeholder="Jane Doe"> <label
-												class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-											<div class="input-group mb-2 mr-sm-2">
-												<div class="input-group-prepend">
-													<div class="input-group-text">@</div>
-												</div>
-												<input type="text" class="form-control"
-													id="inlineFormInputGroupUsername2" placeholder="Username">
-											</div>
-											<div class="form-check mx-sm-2">
-												<label class="form-check-label"> <input
-													type="checkbox" class="form-check-input" checked="">
-													Remember me <i class="input-helper"></i></label>
-											</div>
-											<button type="submit" class="btn btn-primary mb-2">Submit</button>
-										</form>
-									</div>
-								</div>
-							</div>
-							<div class="col-12 grid-margin">
-								<div class="card">
-									<div class="card-body">
-										<h4 class="card-title">Horizontal Two column</h4>
-										<form class="form-sample">
-											<p class="card-description">Personal info</p>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">First Name</label>
-														<div class="col-sm-9">
-															<input type="text" class="form-control">
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Last Name</label>
-														<div class="col-sm-9">
-															<input type="text" class="form-control">
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Gender</label>
-														<div class="col-sm-9">
-															<select class="form-control">
-																<option>Male</option>
-																<option>Female</option>
-															</select>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Date of
-															Birth</label>
-														<div class="col-sm-9">
-															<input class="form-control" placeholder="dd/mm/yyyy">
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Category</label>
-														<div class="col-sm-9">
-															<select class="form-control">
-																<option>Category1</option>
-																<option>Category2</option>
-																<option>Category3</option>
-																<option>Category4</option>
-															</select>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Membership</label>
-														<div class="col-sm-4">
-															<div class="form-check">
-																<label class="form-check-label"> <input
-																	type="radio" class="form-check-input"
-																	name="membershipRadios" id="membershipRadios1" value=""
-																	checked=""> Free <i class="input-helper"></i></label>
-															</div>
-														</div>
-														<div class="col-sm-5">
-															<div class="form-check">
-																<label class="form-check-label"> <input
-																	type="radio" class="form-check-input"
-																	name="membershipRadios" id="membershipRadios2"
-																	value="option2"> Professional <i
-																	class="input-helper"></i></label>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<p class="card-description">Address</p>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Address 1</label>
-														<div class="col-sm-9">
-															<input type="text" class="form-control">
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">State</label>
-														<div class="col-sm-9">
-															<input type="text" class="form-control">
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Address 2</label>
-														<div class="col-sm-9">
-															<input type="text" class="form-control">
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Postcode</label>
-														<div class="col-sm-9">
-															<input type="text" class="form-control">
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">City</label>
-														<div class="col-sm-9">
-															<input type="text" class="form-control">
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group row">
-														<label class="col-sm-3 col-form-label">Country</label>
-														<div class="col-sm-9">
-															<select class="form-control">
-																<option>America</option>
-																<option>Italy</option>
-																<option>Russia</option>
-																<option>Britain</option>
-															</select>
-														</div>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-
-
-
-
 
 						</div>
 					</div>
@@ -432,12 +330,93 @@
 		</div>
 	</div>
 
+	<!--  회원탈퇴부분 -->
+	<div class="modal" id="signout">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+	      
+	        
+	        <!-- Modal body -->
+			<div class="modal-body">
+				<div class="card align-middle"
+					style="width: 100%;">
+					<div class="card-title" style="margin-top: 30px;">
+						<h2 class="card-title text-center" style="color: #113366;">비밀번호 확인</h2>
+					</div>
+					<div class="card-body">
+						<form id = "form-signout" class="form-signout" method="post" >
+							<label
+								for="inputPassword" class="sr-only" >비밀번호</label> 
+							<input
+								type="password" id="m_pass3" class="form-control" oninput="passCheck();"
+								placeholder="비밀번호" name="m_pass1" required style="display: block;">
+								<br>
+							<label
+								for="inputPassword" class="sr-only" >비밀번호확인</label> 
+							<input
+								type="password" id="m_pass4" class="form-control" oninput="passCheck();"
+								placeholder="비밀번호 확인" name="m_pass2" required style="display: block;">	
+								<br>
+								<div class="passCheck2" id="passCheck2"></div>
+								<br>
+								
+							<div>	
+							<button id="btn-Yes" class="btn btn-lg btn-primary btn-block"
+								type="button" onclick="signout()">탈퇴</button>
+							
+							</div>	
+						</form>
+		
+					</div>
+				</div>
+			</div>
 	</div>
-	<div class="card-body"></div>
+	</div>
+	</div>
+	
+	<!--  회원수정부분 -->
+	<div class="modal" id="update">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+	      
+	        
+	        <!-- Modal body -->
+			<div class="modal-body">
+				<div class="card align-middle"
+					style="width: 100%;">
+					<div class="card-title" style="margin-top: 30px;">
+						<h2 class="card-title text-center" style="color: #113366;">기존 비밀번호 확인</h2>
+					</div>
+					<div class="card-body">
+						<form id = "form-signout" class="form-signout" method="post" >
+							<label
+								for="inputPassword" class="sr-only" >기존 비밀번호</label> 
+							<input
+								type="password" id="m_pass9" class="form-control" oninput="passCheck();"
+								placeholder="비밀번호" name="m_pass9" required style="display: block;">
+								<br>
+							<label
+								for="inputPassword" class="sr-only" >기존 비밀번호 확인</label> 
+							<input
+								type="password" id="m_pass0" class="form-control" oninput="passCheck();"
+								placeholder="비밀번호 확인" name="m_pass0" required style="display: block;">	
+								<br>
+								<div class="passCheck3" id="passCheck3"></div>
+								<br>
+								
+							<div>	
+							<button id="btn-Yes" class="btn btn-lg btn-primary btn-block"
+								type="button" onclick="update()">수정</button>
+							
+							</div>	
+						</form>
+		
+					</div>
+				</div>
+			</div>
 	</div>
 	</div>
 	</div>
-
 
 </body>
 </html>

@@ -6,6 +6,7 @@ public class Criteria {
 	private int perPageNum;
 	private int rowStart;
 	private int rowEnd;
+	private String boardtype;
 	
 	public Criteria() {
 		this.page = 1;
@@ -55,5 +56,14 @@ public class Criteria {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", rowStart=" + rowStart + ", rowEnd=" + rowEnd
 				+ "]";
 	}
+
+	public String getBoardtype() {
+		return boardtype;
+	}
+
+	public void setBoardtype(String boardtype) {
+		this.boardtype = boardtype;
+	}
+	
 	
 }

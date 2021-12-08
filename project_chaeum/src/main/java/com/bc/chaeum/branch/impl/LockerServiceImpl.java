@@ -44,5 +44,9 @@ public class LockerServiceImpl implements LockerService{
 	public List<LockerVO> getLockerList(LockerVO vo) {
 		return lockerDAO.getLockerList(vo);
 	}
+	@Override
+	public List<LockerVO> getLockerList(int branch_id) {
+		return lockerDAO.getLockerList(branch_id);
+	}
 	
 }

@@ -107,17 +107,27 @@ var ctx1 = document.getElementById("selectall_month_chart").getContext('2d');
 	var selectall_month_chart = new Chart(ctx1, {
 	    type: 'bar',
 	    data: {
-	        labels: ["${selectAll_Month[0].branchname}", "${selectAll_Month[1].branchname}", "${selectAll_Month[2].branchname}"],
+	        labels: ["${selectAll_Month[0].branchname}", "${selectAll_Month[1].branchname}", 
+	        	"${selectAll_Month[2].branchname}",  "${selectAll_Month[3].branchname}",  
+	        	"${selectAll_Month[4].branchname}",  "${selectAll_Month[5].branchname}"],
 	        datasets: [{
 	        	label: "",
-	            data: [${selectAll_Month[0].monthsale / 1000}, ${selectAll_Month[1].monthsale / 1000}, ${selectAll_Month[2].monthsale / 1000}],
+	            data: [${selectAll_Month[0].monthsale / 1000}, ${selectAll_Month[1].monthsale / 1000}, 
+	            	${selectAll_Month[2].monthsale / 1000}, ${selectAll_Month[3].monthsale / 1000}, 
+	            	${selectAll_Month[4].monthsale / 1000}, ${selectAll_Month[5].monthsale / 1000}],
 	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
 	                'rgba(255, 99, 132, 0.2)',
 	                'rgba(54, 162, 235, 0.2)',
 	                'rgba(255, 206, 86, 0.2)'
 	                
 	            ],
 	            borderColor: [
+	                'rgba(255,99,132,1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
 	                'rgba(255,99,132,1)',
 	                'rgba(54, 162, 235, 1)',
 	                'rgba(255, 206, 86, 1)'
@@ -160,17 +170,28 @@ var ctx2 = document.getElementById("selectall_day_chart").getContext('2d');
 	var selectall_day_chart = new Chart(ctx2, {
 	    type: 'bar',
 	    data: {
-	        labels: ["${selectAll_Day[0].branchname}", "${selectAll_Day[1].branchname}", "${selectAll_Day[2].branchname}"],
+	        labels: ["${selectAll_Day[0].branchname}", "${selectAll_Day[1].branchname}", 
+	        	"${selectAll_Day[2].branchname}", "${selectAll_Day[3].branchname}",
+	        	"${selectAll_Day[4].branchname}", "${selectAll_Day[5].branchname}"
+	        	],
 	        datasets: [{
 	        	label: "",
-	            data: [${selectAll_Day[0].daysale / 1000}, ${selectAll_Day[1].daysale / 1000}, ${selectAll_Day[2].daysale / 1000}],
+	            data: [${selectAll_Day[0].daysale / 1000}, ${selectAll_Day[1].daysale / 1000}, 
+	            	${selectAll_Day[2].daysale / 1000}, ${selectAll_Day[3].daysale / 1000},
+	            	${selectAll_Day[4].daysale / 1000}, ${selectAll_Day[5].daysale / 1000} ],
 	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
 	                'rgba(255, 99, 132, 0.2)',
 	                'rgba(54, 162, 235, 0.2)',
 	                'rgba(255, 206, 86, 0.2)'
 	                
 	            ],
 	            borderColor: [
+	                'rgba(255,99,132,1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
 	                'rgba(255,99,132,1)',
 	                'rgba(54, 162, 235, 1)',
 	                'rgba(255, 206, 86, 1)'

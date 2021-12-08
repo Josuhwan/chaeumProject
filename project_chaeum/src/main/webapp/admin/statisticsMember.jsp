@@ -1,18 +1,17 @@
+<%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
+<% 
+	//매출 통계 페이지 외 다른 페이지 이동 시 매출통계 세션 객체 삭제
+	session.removeAttribute("changedate"); 
+	session.removeAttribute("changebranch");
+%>
+
 <div class="content-wrapper">
-	<div style="text-align: center; width: 100%">
+	<div style="text-align: center; width: 100%; margin-bottom: 50px;">
 		<h2>${visitcnt.month }월 회원통계</h2>
-	</div>
-	<div style="text-align: right; width: 100%; margin-right: 10%; margin-bottom: 50px;">
-		<!-- 
-		<form name="Saledate" action="changeSaledate.do" method="get">
-			<input type="date" name="Saledate" />
-			<input type="submit" value="변경" />
-		</form>
-		 -->
 	</div>
 	<div class="row">
 		<div class="col-lg-6 grid-margin stretch-card">
@@ -82,30 +81,46 @@ var ctx1 = document.getElementById("selectmonth_visit_chart").getContext('2d');
 - ctx를 첫번째 argument로 넘겨주고, 
 - 두번째 argument로 그림을 그릴때 필요한 요소들을 모두 넘겨줍니다. 
 */
+	
 	var selectall_month_chart = new Chart(ctx1, {
 	    type: 'line',
 	    data: {
 	        labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 	        datasets: [{
 	        	label: "",
-	            data: [${visitcntlist[0].visitcnt }, ${visitcntlist[1].visitcnt }, 
-	            	${visitcntlist[2].visitcnt }, ${visitcntlist[3].visitcnt }, 
-	            	${visitcntlist[4].visitcnt }, ${visitcntlist[5].visitcnt }, 
-	            	${visitcntlist[6].visitcnt }, ${visitcntlist[7].visitcnt }, 
-	            	${visitcntlist[8].visitcnt }, ${visitcntlist[9].visitcnt }, 
-	            	${visitcntlist[10].visitcnt }, ${visitcntlist[11].visitcnt }],
+	            data: [ ${visitcntlist[0].visitcnt}, ${visitcntlist[1].visitcnt},
+	            	${visitcntlist[2].visitcnt}, ${visitcntlist[3].visitcnt},
+	            	${visitcntlist[4].visitcnt}, ${visitcntlist[5].visitcnt},
+	            	${visitcntlist[6].visitcnt}, ${visitcntlist[7].visitcnt},
+	            	${visitcntlist[8].visitcnt}, ${visitcntlist[9].visitcnt},
+	            	${visitcntlist[10].visitcnt}, ${visitcntlist[11].visitcnt}
+	            ],
 	            backgroundColor: [
-	                'rgba(255, 99, 132, 0.2)',
-	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
 	                'rgba(255, 206, 86, 0.2)',
 	                'rgba(255, 206, 86, 0.2)',
 	                'rgba(255, 206, 86, 0.2)'
 	                
 	            ],
 	            borderColor: [
-	                'rgba(255,99,132,1)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
+	            	'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
 	                'rgba(255, 206, 86, 0.2)',
 	                'rgba(255, 206, 86, 0.2)'
 	                

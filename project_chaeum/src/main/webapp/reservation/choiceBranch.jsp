@@ -117,14 +117,12 @@
 
 
 <div class="content-wrapper" align="center">
-
-
-
-
 	<div class="row" style="width: 75%">
 		<div class="col-md-12 grid-margin stretch-card" >
 			<div class="card position-relative" >
 				<div class="card-body" >
+
+
 
 					<!-- 지도포함 내용물 묶 -->
 					<div class="row">
@@ -187,6 +185,9 @@
 
 <script>
 	let position_b;
+	
+	
+	
 	var mapContainer = document.getElementById('map'), // 지도의 중심좌표
 	mapOption = {
 		center : new kakao.maps.LatLng(37.483953143582305, 126.89410293398274), // 지도의 중심좌표
@@ -206,9 +207,10 @@
 	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
 	var zoomControl = new kakao.maps.ZoomControl();
 	map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
-
+	
 	// 마커 이미지의 이미지 주소입니다
-	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+	var imageSrc = "resources/images/map_pointer_s.png";
+	imageSize = new kakao.maps.Size(49, 46);
 	var clickedOverlay = null;
 
 	/*	
@@ -220,7 +222,17 @@
 		getJsonBranchListData();
 	];
 	 */
-
+	 
+	 /*
+	 var list = new Array();
+	 var size = ${branchList.size()};
+	for(var x=0; x<size ; x++){
+		console.log(${branchList[1].branch_name});
+		console.log(temp);
+	}
+	 */
+	 
+	 /*
 	var positions = [ {
 		title : '테스트0',
 		latlng : new kakao.maps.LatLng(37.0, 126.0)
@@ -243,10 +255,36 @@
 		title : '구로디지털점',
 		latlng : new kakao.maps.LatLng(37.483953143582305, 126.89410293398274)
 	} ];
+	 */
+		var positions = [
+			
+			
+			{
+			title : '테스트0',
+			latlng : new kakao.maps.LatLng(37.0, 126.0)
+		}, {
+			title : '시흥동점',
+			latlng : new kakao.maps.LatLng(37.45044111687359, 126.90948405908027)
+		}, {
+			title : '보라매점',
+			latlng : new kakao.maps.LatLng(37.49003289436126, 126.9271166452897)
+		}, {
+			title : '고척점',
+			latlng : new kakao.maps.LatLng(37.503122224664345, 126.85014100917697)
+		}, {
+			title : '난곡점',
+			latlng : new kakao.maps.LatLng(37.48058171591476, 126.90945223680478)
+		}, {
+			title : '가산디지털역점',
+			latlng : new kakao.maps.LatLng(37.4803938036867, 126.88412249700781)
+		}, {
+			title : '구로디지털점',
+			latlng : new kakao.maps.LatLng(37.483953143582305, 126.89410293398274)
+		} ];	 
 
 	var content;
 	for (var i = 1; i < positions.length; i++) {
-
+		
 		// 마커 이미지의 이미지 크기 입니다
 		var imageSize = new kakao.maps.Size(24, 35);
 
@@ -265,7 +303,8 @@
 		let vo = {};
 		vo.branch_id = i;
 
-		$
+
+	$
 				.ajax(
 						"getJsonBranch.do",
 						{
@@ -316,6 +355,7 @@
 	}
 
 	function makeOverListener(map, marker, customOverlay) {
+		
 		return function() {
 			if (clickedOverlay) {
 				clickedOverlay.setMap(null);

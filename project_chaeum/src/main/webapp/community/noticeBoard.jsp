@@ -5,11 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <style>
-
-
 table {
 	border-collapse: collapse;
+}
+
+li {
+	list-style: none;
+	float: left;
+	padding: 6px;
 }
 
 table, th, td {
@@ -18,7 +24,7 @@ table, th, td {
 }
 
 th {
-	background-color: MediumPurple;
+	background-color: #FFCA9B;
 }
 
 .center {
@@ -29,85 +35,140 @@ th {
 	border: none;
 }
 
+.paging { 
+		list-style: none;
+		text-align: center;
+	 }
+	.paging li {
+		display: inline-block;
+	}
+	.paging li a {
+		text-decoration: none;
+		display: block;
+		padding: 3px 7px;
+		border: 1px solid #dcdcdc;
+		font-weight: bold;
+		color: black;
+	}
+	.paging .disable {
+		border: 1px solid silver;
+		padding: 3px 7px;
+		color: silver;
+	}
+	.paging .now {
+		border: 1px solid #ff4aa5;
+		padding: 3px 7px;
+		background-color: #ff4aa5;
+	}
 </style>
 <title>글목록</title>
 <script>
-	
+$(function(){
+    $('#searchBtn').click(function() {
+      location.href = "getNoticeBoardList.do" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("#searchType").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
+    });
+  });   	
 </script>
 </head>
 <div class="content-wrapper" align="center">
 	<div class="row" style="width: 75%">
-	<div class="col-md-12 grid-margin stretch-card">
+		<div class="col-md-12 grid-margin stretch-card">
 			<div class="card position-relative">
+
+				<div class="card-body">
+					<h1 class="h1">공지사항</h1>
+
+					<br> <br>
+
+					<!-- 검색을 위한 폼 -->
+					
+					<div class="search">
+					<form role="form" method="get">
+						<select name="searchType" id="searchType" >
+							
+							<option value="t">제목</option>
+							<option value="c">내용</option>
+							<option value="w">작성자</option>
+							<option value="tc">제목+내용</option>
+						</select> 
+						<input type="text" name="keyword" id="keywordInput" value="${scri.keyword}" />
+
+						<button id="searchBtn" type="button">검색</button>
+					</form>
+					</div>
 				
-	<div class="card-body">
-		<h1 class="h1">공지게시판</h1>
-		
-		<br>
-		<br>
-		
-		<!-- 검색을 위한 폼 -->
-		<div align="right">
-			<form action="getNoticeBoardList.do" method="get">
-				<table class="border-none">
-					<tr>
-						<td>
-							<select name="searchCondition">
-								<option value="TITLE">제목</option>
-								<option value="CONTENT">내용</option>
-						    </select> 
-						    <input type="text" name="searchKeyword"> 
-						    <input type="submit" value="검색">
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-		<br>
-		
-		<div class="table-responsive pt-3">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>작성일</th>
-						<th>조회수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:if test="${not empty boardList }">
-				<c:forEach var="board" items="${boardList }">
-					<c:if test="${board.boardtype == '공지게시판' }">
-						<tr>
-							<td class="center">${board.board_id }</td>
-							<td><a href="getBoard.do?board_id=${board.board_id }">${board.title }</a>
-							</td>
-							<td>${board.nickname }</td>
-							<td>${board.b_regdate }</td>
-							<td>${board.count }</td>
-						</tr>
-					</c:if>
-				</c:forEach>
-			
-			</c:if>
-			<c:if test="${empty boardList }">
-				<tr>
-					<td colspan="5" class="center">데이터가 없습니다</td>
-				</tr>
-			</c:if>
-				</tbody>
-			</table>
-			<c:if test="${sessionScope.user.rank == '관리자'}">
-			<p>
-				<a href="index.jsp?contentPage=community/insertBoardNotice.jsp">새글등록</a>
-			</p>
-		</c:if>
-		</div>
-	</div>
-	</div>
-	</div>
-	</div>
+					<br>
+
+					<div class="table-responsive pt-3">
+						<table class="table table-bordered">
+							<thead>
+								<tr align="center">
+									<th width=10%;>번호</th>
+									<th width=40%;>제목</th>
+									<th width=20%;>작성자</th>
+									<th width=20%;>작성일</th>
+									<th width=10%;>조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:if test="${not empty boardList }">
+								<c:set var="no" value="${pageMaker.totalCount}"/>
+									<c:forEach var="board" items="${boardList }">
+										<c:if test="${board.boardtype == '공지사항' }">
+											<tr align="center">
+												<td>${no}</td>
+												<td><a href="getBoard.do?board_id=${board.board_id }">${board.title }</a>
+												</td>
+												<td>${board.nickname }</td>
+												<td>${board.b_regdate }</td>
+												<td>${board.count }</td>
+											</tr>
+											<c:set var="no" value="${no - 1}"/>
+										</c:if>
+									</c:forEach>
+
+								</c:if>
+								<c:if test="${empty boardList }">
+									<tr>
+										<td colspan="5" class="center">데이터가 없습니다</td>
+									</tr>
+								</c:if>
+							</tbody>
+						</table>
+						<br>
+						
+						<div style="position: absolute; left: 25%;">
+							<ul class="paging">
+								<c:if test="${pageMaker.prev}">
+									<li><a
+										href="getNoticeBoardList.do${pageMaker.makeSearch(pageMaker.pageStart - 1)}">이전</a></li>
+								</c:if>
 	
-</div>
+								<c:forEach begin="${pageMaker.pageStart}" end="${pageMaker.pageEnd}" var="idx">
+									<li><a
+										href="getNoticeBoardList.do${pageMaker.makeSearch(idx)}">${idx}</a></li>
+								</c:forEach>
+	
+								<c:if test="${pageMaker.next && pageMaker.pageEnd > 0}">
+									<li><a
+										href="getNoticeBoardList.do${pageMaker.makeSearch(pageMaker.pageEnd + 1)}">다음</a></li>
+								</c:if>
+							</ul>
+							<br>
+						</div>	
+						<br>
+						<br>
+						<br>
+						<br>
+						
+						<c:if test="${sessionScope.user.rank == '관리자' || sessionScope.user.rank == '마스터 관리자'}">
+							<p>
+								<button type="button" class= "btn btn-outline-primary" onclick="location.href='index.jsp?contentPage=community/insertBoard.jsp'">새글등록</button>
+							</p>
+						</c:if>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>	

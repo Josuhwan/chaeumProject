@@ -57,6 +57,24 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public MemberVO signinCheck(MemberVO vo) {
+		return userDAO.signinCheck(vo);
+	}
+
+	@Override
+	public int passChk(MemberVO vo) {
+		int result = userDAO.passChk(vo);
+		return result;
+	}
+
+	@Override
+	public int loginChk(String email) {
+		int result = userDAO.loginChk(email);
+		return result;
+	}
+
+
 	
 
 	

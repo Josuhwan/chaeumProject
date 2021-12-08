@@ -17,12 +17,10 @@
 	</select>
 
 	<update id="updateMember" parameterType="member">
-		UPDATE MEMBER SET M_PASS = #{m_pass},
-							NICKNAME = #{nickname},
+		UPDATE MEMBER SET 	NICKNAME = #{nickname},
 							PHONE = #{phone},
 							M_REGDATE = #{m_regdate},
 							RANK = #{rank},
-							
 							BIRTH = #{birth},
 							M_USEABLE = #{m_useable}
 						WHERE EMAIL = #{email}

@@ -17,4 +17,9 @@ public interface BoardService {
 	void boardCnt(int board_id) throws Exception;
 	
 	int listCount(SearchCriteria scri);
+	
+	List<BoardVO> getBoardList_F(SearchCriteria scri);
+	//List<BoardVO> getBoardList_F(BoardVO vo);
+	List<BoardVO> getBoardList2(String email);
+	
 }

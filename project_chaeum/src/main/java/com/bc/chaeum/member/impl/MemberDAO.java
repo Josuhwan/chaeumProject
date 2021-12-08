@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bc.chaeum.member.service.MemberVO;
 
-
 @Repository
 public class MemberDAO {
 	@Autowired
@@ -20,15 +19,12 @@ public class MemberDAO {
 		System.out.println(">> MemberDAO() 객체 생성");
 	}
 	
-	
-	public MemberVO selectOneMember(String id) {
-		return mybatis.selectOne("member.selectOneMember", id);
-	}
 
-	//회원목록
-	public List<MemberVO> selectAllMember(){
-		return null;
+	// 회원목록
+	public List<MemberVO> selectAllMember() {
+		return mybatis.selectList("member.selectAllMember");
 	}
+	
 	// 회원목록
 	public List<MemberVO> selectAllMember(MemberVO vo) {
 		return mybatis.selectList("member.selectAllMember", vo);
@@ -37,10 +33,6 @@ public class MemberDAO {
 	// 회원이름아이디검색
 	public List<MemberVO> list(MemberVO vo) {
 		return mybatis.selectList("member.selectAllMember",vo);			
-	}
-
-	public int insertMember(MemberVO vo) {
-		return mybatis.update("member.insertMember", vo);
 	}
 
 	//회원정보수정
@@ -57,13 +49,6 @@ public class MemberDAO {
 	// 회원삭제
 	public int deleteMember(MemberVO vo) {
 		return mybatis.delete("member.deleteMember", vo);
-	}
-
-	public MemberVO checkIdPassword(String id, String password) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("password", password);
-		return mybatis.selectOne("member.checkIdPassword", map);
 	}
 	
 	

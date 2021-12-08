@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>meta</title>
+<title>지식을 채우다 CHAEUM!</title>
+<link href="resources/assets/img/c_favicon.png" rel="icon">
 <!-- plugins:css -->
 <link rel="stylesheet" href="resources/vendors/feather/feather.css">
 <link rel="stylesheet" href="resources/vendors/ti-icons/css/themify-icons.css">
@@ -18,8 +19,18 @@
 <!-- inject:css -->
 <link rel="stylesheet" href="resources/css/vertical-layout-light/style.css">
 <!-- endinject -->
-<link rel="shortcut icon" href="resources/images/favicon.png" />
+
+<link rel="shortcut icon" href="resources/images/c_favicon.png" />
+
+
 	
 
- 
+
+
+
+
+
+
+
+
 </head>

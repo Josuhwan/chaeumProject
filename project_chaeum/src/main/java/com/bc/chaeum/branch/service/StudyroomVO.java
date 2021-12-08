@@ -9,6 +9,7 @@ public class StudyroomVO {
 	private String studyroom_structure;
 	private String studyroom_info;
 	private int branch_id;
+	private String studyroom_check;
 	
 	public int getStudyroom_id() {
 		return studyroom_id;
@@ -62,13 +63,21 @@ public class StudyroomVO {
 	public void setBranch_id(int branch_id) {
 		this.branch_id = branch_id;
 	}
+	public String getStudyroom_check() {
+		return studyroom_check;
+	}
+	public void setStudyroom_check(String studyroom_check) {
+		this.studyroom_check = studyroom_check;
+	}
 	@Override
 	public String toString() {
 		return "StudyroomVO [studyroom_id=" + studyroom_id + ", studyroom_name=" + studyroom_name + ", studyroom_price="
 				+ studyroom_price + ", studyroom_num=" + studyroom_num + ", studyroom_size=" + studyroom_size
 				+ ", studyroom_structure=" + studyroom_structure + ", studyroom_info=" + studyroom_info + ", branch_id="
-				+ branch_id + "]";
+				+ branch_id + ", studyroom_check=" + studyroom_check + "]";
 	}
+
+	
 
 	
 	

@@ -3,16 +3,18 @@ package com.bc.chaeum.board.service;
 import java.sql.Date;
 
 import com.bc.chaeum.member.service.MemberVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //@JsonIgnoreProperties : JSON 데이터 변환시 제외시킬 필드 지정
-@JsonIgnoreProperties(value = {"searchCondition", "searchKeyword"})
+//@JsonIgnoreProperties(value = {"searchCondition", "searchKeyword"})
 public class BoardVO {
 	
 	private int board_id;
 	private String title;
 	private String b_contents;
 	private String boardtype;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date b_regdate;
 	private Date update_date;
 	private String b_useable;
@@ -21,6 +23,14 @@ public class BoardVO {
 	private String nickname;
 	
 	private MemberVO memberVO;
+	
+	
+	// 검색조건용 필드 추가
+	//@JsonIgnore //JSON 데이터 변경 제외
+	private String searchCondition;
+	//@JsonIgnore 
+	private String searchKeyword;
+	
 	
 	
 	public BoardVO() {
@@ -168,9 +178,24 @@ public class BoardVO {
 		return "BoardVO [board_id=" + board_id + ", title=" + title + ", b_contents=" + b_contents + ", boardtype="
 				+ boardtype + ", b_regdate=" + b_regdate + ", update_date=" + update_date + ", b_useable=" + b_useable
 				+ ", count=" + count + ", email=" + email + ", nickname=" + nickname + ", memberVO=" + memberVO
-				  + "]";
+				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
 	}
 
+
+
+	//==========================
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
 
 	
 	

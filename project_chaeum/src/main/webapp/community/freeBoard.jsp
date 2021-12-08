@@ -24,7 +24,7 @@ table, th, td {
 }
 
 th {
-	background-color: MediumPurple;
+	background-color: #B4B4DC
 }
 
 .center {
@@ -34,13 +34,38 @@ th {
 .border-none, .border-none td {
 	border: none;
 }
+
+.paging { 
+		list-style: none;
+		text-align: center;
+	 }
+	.paging li {
+		display: inline-block;
+	}
+	.paging li a {
+		text-decoration: none;
+		display: block;
+		padding: 3px 7px;
+		border: 1px solid #dcdcdc;
+		font-weight: bold;
+		color: black;
+	}
+	.paging .disable {
+		border: 1px solid silver;
+		padding: 3px 7px;
+		color: silver;
+	}
+	.paging .now {
+		border: 1px solid #ff4aa5;
+		padding: 3px 7px;
+		background-color: #ff4aa5;
+	}
 </style>
 <title>글목록</title>
 <script>
 $(function(){
     $('#searchBtn').click(function() {
-    	alert($("select option:selected").val());
-      location.href = "getFreeBoardList.do" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
+      location.href = "getFreeBoardList.do" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("#searchType").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
     });
   });   	
 </script>
@@ -59,17 +84,12 @@ $(function(){
 					
 					<div class="search">
 					<form role="form" method="get">
-						<select name="searchType">
-							<option value="n"
-								<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
-							<option value="t"
-								<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
-							<option value="c"
-								<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
-							<option value="w"
-								<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>
-							<option value="tc"
-								<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
+						<select name="searchType" id="searchType" >
+							
+							<option value="t">제목</option>
+							<option value="c">내용</option>
+							<option value="w">작성자</option>
+							<option value="tc">제목+내용</option>
 						</select> 
 						<input type="text" name="keyword" id="keywordInput" value="${scri.keyword}" />
 
@@ -80,29 +100,30 @@ $(function(){
 					<br>
 
 					<div class="table-responsive pt-3">
-						<table class="table table-bordered">
+						<table class="table table-bordered" >
 							<thead>
-								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>조회수</th>
+								<tr align="center">
+								
+									<th width=10%;>번호</th>
+									<th width=40%;>제목</th>
+									<th width=20%;>작성자</th>
+									<th width=20%;>작성일</th>
+									<th width=10%;>조회수</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:if test="${not empty boardList }">
 									<c:forEach var="board" items="${boardList }">
-										<c:if test="${board.boardtype == '자유게시판' }">
-											<tr>
-												<td class="center">${board.board_id }</td>
+										
+											<tr align="center">
+												<td class="center">${board.board_id}</td>
 												<td><a href="getBoard.do?board_id=${board.board_id }">${board.title }</a>
 												</td>
 												<td>${board.nickname }</td>
 												<td>${board.b_regdate }</td>
 												<td>${board.count }</td>
 											</tr>
-										</c:if>
+										
 									</c:forEach>
 
 								</c:if>
@@ -113,28 +134,37 @@ $(function(){
 								</c:if>
 							</tbody>
 						</table>
+						<br>
+
+						<div style="position: absolute; left: 25%;">
+							<ul class="paging">
+								<c:if test="${pageMaker.prev}">
+									<li><a
+										href="getFreeBoardList.do${pageMaker.makeSearch(pageMaker.pageStart - 1)}">이전</a></li>
+								</c:if>
+	
+								<c:forEach begin="${pageMaker.pageStart}" end="${pageMaker.pageEnd}" var="idx">
+									<li><a
+										href="getFreeBoardList.do${pageMaker.makeSearch(idx)}">${idx}</a></li>
+								</c:forEach>
+	
+								<c:if test="${pageMaker.next && pageMaker.pageEnd > 0}">
+									<li><a
+										href="getFreeBoardList.do${pageMaker.makeSearch(pageMaker.pageEnd + 1)}">다음</a></li>
+								</c:if>
+							</ul>
+							<br>
+						</div>	
+						<br>
+						<br>
+						<br>
+						<br>
+						
 						<c:if test="${sessionScope.user != null}">
 							<p>
-								<a href="index.jsp?contentPage=community/insertBoard.jsp">새글등록</a>
+								<button type="button" class= "btn btn-outline-primary" onclick="location.href='index.jsp?contentPage=community/insertBoard.jsp'">새글등록</button>
 							</p>
 						</c:if>
-						<ul>
-							<c:if test="${pageMaker.prev}">
-								<li><a
-									href="getFreeBoardList.do${pageMaker.makeSearch(pageMaker.pageStart - 1)}">이전</a></li>
-							</c:if>
-
-							<c:forEach begin="${pageMaker.pageStart}"
-								end="${pageMaker.pageEnd}" var="idx">
-								<li><a
-									href="getFreeBoardList.do${pageMaker.makeSearch(idx)}">${idx}</a></li>
-							</c:forEach>
-
-							<c:if test="${pageMaker.next && pageMaker.pageEnd > 0}">
-								<li><a
-									href="getFreeBoardList.do${pageMaker.makeSearch(pageMaker.pageEnd + 1)}">다음</a></li>
-							</c:if>
-						</ul>
 					</div>
 				</div>
 			</div>

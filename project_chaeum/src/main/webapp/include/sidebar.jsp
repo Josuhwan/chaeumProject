@@ -35,10 +35,9 @@
 
 
 <!-- partial:partials/_sidebar.html -->
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas" id="sidebar" style="background-color: #bbbbdd;">
 	<ul class="nav">
-		<li class="nav-item"><a class="nav-link" href="#"
-			onclick="location.href='adminhome.do'"> <i class="icon-grid menu-icon"></i> <span
+		<li class="nav-item"><a class="nav-link" href="#" onclick="location.href='adminhome.do'"><i class="icon-grid menu-icon"></i><span
 				class="menu-title">관리자 패널</span>
 		</a></li>
 
@@ -47,7 +46,7 @@
 
 		<li class="nav-item"><a class="nav-link" data-toggle="collapse"
 			href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-				<i class="icon-layout menu-icon"></i> <span class="menu-title">회원관리</span>
+				<i class="icon-head menu-icon"></i><span class="menu-title">회원관리</span>
 				<i class="menu-arrow"></i>
 		</a>
 			<div class="collapse" id="ui-basic">
@@ -55,15 +54,13 @@
 					<li class="nav-item"><a class="nav-link" href="#"
 						onclick="location.href='memberList.do'">사용자 목록</a></li>
 					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="location.href='index.jsp?contentPage=admin/manageMember/sendMessage.jsp'">메세지 보내기</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="location.href='index.jsp?contentPage=admin/manageMember/autoMail.jsp'">자동 이메일 설정</a></li>
+						href="#" onclick="location.href='message_list.do'">메세지 보내기</a></li>
 				</ul>
 			</div></li>
 
 		<li class="nav-item"><a class="nav-link" data-toggle="collapse"
 			href="#admin-total" aria-expanded="false" aria-controls="admin-total">
-				<i class="icon-layout menu-icon"></i> <span class="menu-title">통계조회</span>
+				<i class="icon-bar-graph menu-icon"></i><span class="menu-title">통계조회</span>
 				<i class="menu-arrow"></i>
 		</a>
 			<div class="collapse" id="admin-total">
@@ -73,8 +70,23 @@
 					<li class="nav-item"><a class="nav-link" href="#"
 						onclick="location.href='Usertotal.do'">회원통계</a></li>
 				</ul>
-			</div></li>
-
+			</div>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" data-toggle="collapse"
+			href="#board-control" aria-expanded="false" aria-controls="board-control">
+				<i class="icon-clipboard menu-icon"></i><span class="menu-title">게시판 관리</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="board-control">
+				<ul class="nav flex-column sub-menu">
+					<li class="nav-item"><a class="nav-link" href="#"
+						onclick="location.href='adminboard.do'">공지사항</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						onclick="location.href='adminfreeboard.do'">자유게시판</a></li>
+				</ul>
+			</div>
+		</li>
 		<!-- 
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="changeView(26)">

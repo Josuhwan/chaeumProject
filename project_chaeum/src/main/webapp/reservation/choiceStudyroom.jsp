@@ -6,6 +6,7 @@
   
     
 <div class="content-wrapper" align="center">
+
 	<h2>${branch.branch_id }</h2>
 	
 	<c:forEach var="studyroom" items="${studyroomList_Bid }">
@@ -116,5 +117,9 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
 
 </div>

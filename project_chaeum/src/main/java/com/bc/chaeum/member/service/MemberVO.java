@@ -15,6 +15,7 @@ public class MemberVO {
 	private String ch2;
 	private Date m_regdate;
 	private String m_useable;
+	private String rememberEmail;
 	 
 	
 	public MemberVO() {}
@@ -110,6 +111,12 @@ public class MemberVO {
 		return "MemberVO [email=" + email + ", m_pass=" + m_pass + ", nickname=" + nickname + ", phone=" + phone
 				+ ", birth=" + birth + ", rank=" + rank + ", email1=" + email1 + ", email2=" + email2 + ", ch1=" + ch1
 				+ ", ch2=" + ch2 + ", m_regdate=" + m_regdate + ", m_useable=" + m_useable + "]";
+	}
+	public String getRememberEmail() {
+		return rememberEmail;
+	}
+	public void setRememberEmail(String rememberEmail) {
+		this.rememberEmail = rememberEmail;
 	}
 	
 	
